@@ -1,0 +1,8 @@
+*.o
+vgcore.*
+*arcade_nibbler.so
+*arcade_pacman.so
+*arcade_sfml.so
+*arcade_sdl2.so
+*arcade_ncurses.so
+arcade
