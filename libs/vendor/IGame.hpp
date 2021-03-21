@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+#include "evtVar.hpp"
+
 class IGame {
     public:
         virtual ~IGame() = default;

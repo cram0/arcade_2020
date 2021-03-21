@@ -17,8 +17,8 @@
 #include <random>
 #include <time.h>
 
-#define CELL_SIZE 14.0
-#define GRID_SIZE 50
+#define GRID_SIZE_X 28
+#define GRID_SIZE_Y 31
 
 class Nibbler : public IGame {
 

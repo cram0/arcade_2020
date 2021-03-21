@@ -9,7 +9,7 @@
 
 LibSFML::LibSFML()
 {
-    _window.create((sf::VideoMode){712, 800, 32}, "Title", sf::Style::Close);
+    _window.create((sf::VideoMode){646, 800, 32}, "Title", sf::Style::Close);
     _window.setFramerateLimit(60);
     _clock.restart();
     _score_font.loadFromFile("libs/graphics/font/OpenSans-Regular.ttf");
@@ -35,33 +35,64 @@ void LibSFML::Initialize()
 
 }
 
+void LibSFML::DrawShapeFromID(char id, sf::Vector2f r_pos)
+{
+    sf::CircleShape circ;
+    circ.setRadius(CELL_SIZE);
+    sf::RectangleShape rect;
+    rect.setSize((sf::Vector2f){CELL_SIZE, CELL_SIZE});
+    if (id >= '0' && id <= '9') {
+        if (id == '0')
+            rect.setFillColor(sf::Color::Black);
+        if (id == '1')
+            rect.setFillColor(sf::Color::Red);
+        if (id == '2')
+            rect.setFillColor(sf::Color::White);
+        if (id == '3')
+            rect.setFillColor(sf::Color::Green);
+        if (id == '4')
+            rect.setFillColor(sf::Color::Blue);
+        rect.setPosition(r_pos);
+        _window.draw(rect);
+    }
+    else {
+        if (id == 'a')
+            circ.setFillColor(sf::Color::Yellow);
+        if (id == 'x') {
+            circ.setRadius(CELL_SIZE / 2);
+            circ.setFillColor(sf::Color::White);
+        }
+        if (id == 'u')
+            circ.setFillColor(sf::Color::White);
+        if (id == 'p')
+            circ.setFillColor((sf::Color){255, 192, 203});
+        if (id == 'b')
+            circ.setFillColor(sf::Color::Red);
+        if (id == 'i')
+            circ.setFillColor(sf::Color::Cyan);
+        if (id == 'c')
+            circ.setFillColor((sf::Color){255,165,0});
+        circ.setPosition(r_pos);
+        _window.draw(circ);
+    }
+}
+
 void LibSFML::DrawMap(std::vector<std::string> map)
 {
-    sf::Vector2f r_pos = {6, 6};
+    sf::Vector2f r_pos = {1, 1};
     sf::RectangleShape bg_rect;
     bg_rect.setPosition(r_pos);
-    bg_rect.setSize((sf::Vector2f){CELL_SIZE * GRID_SIZE, CELL_SIZE * GRID_SIZE});
+    bg_rect.setSize((sf::Vector2f){CELL_SIZE * GRID_SIZE_X, CELL_SIZE * GRID_SIZE_Y});
     bg_rect.setOutlineThickness(1.0);
     _window.draw(bg_rect);
 
-    for (int y = 0; y < GRID_SIZE; y++) {
-        for (int x = 0; x < GRID_SIZE; x++) {
-            sf::RectangleShape rect;
-            rect.setSize((sf::Vector2f){CELL_SIZE, CELL_SIZE});
-            if (map[y][x] == '0')
-                rect.setFillColor(sf::Color::Black);
-            if (map[y][x] == '1')
-                rect.setFillColor(sf::Color::Red);
-            if (map[y][x] == '2')
-                rect.setFillColor(sf::Color::White);
-            if (map[y][x] == '3')
-                rect.setFillColor(sf::Color::Green);
-            rect.setPosition(r_pos);
-            _window.draw(rect);
+    for (int y = 0; y < GRID_SIZE_Y; y++) {
+        for (int x = 0; x < GRID_SIZE_X; x++) {
+            DrawShapeFromID(map[y][x], r_pos);
             r_pos.x += CELL_SIZE;
         }
         r_pos.y += CELL_SIZE;
-        r_pos.x = 6;
+        r_pos.x = 1;
     }
 }
 

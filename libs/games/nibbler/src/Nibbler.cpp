@@ -21,36 +21,19 @@ Nibbler::~Nibbler()
 
 void Nibbler::InitNibbler()
 {
-    _nibbler.emplace_back((nibbler_t){true, 25, 25});
-    _nibbler.emplace_back((nibbler_t){false, 24, 25});
-    _nibbler.emplace_back((nibbler_t){false, 23, 25});
-    _nibbler.emplace_back((nibbler_t){false, 22, 25});
-    _nibbler.emplace_back((nibbler_t){false, 21, 25});
-    _nibbler.emplace_back((nibbler_t){false, 20, 25});
-    _nibbler.emplace_back((nibbler_t){false, 19, 25});
-    _nibbler.emplace_back((nibbler_t){false, 18, 25});
-    _nibbler.emplace_back((nibbler_t){false, 17, 25});
-    _nibbler.emplace_back((nibbler_t){false, 16, 25});
-    _nibbler.emplace_back((nibbler_t){false, 15, 25});
-    _nibbler.emplace_back((nibbler_t){false, 14, 25});
-    _nibbler.emplace_back((nibbler_t){false, 13, 25});
-    _nibbler.emplace_back((nibbler_t){false, 12, 25});
-    _nibbler.emplace_back((nibbler_t){false, 11, 25});
+    _nibbler.emplace_back((nibbler_t){true, 10, 15});
+    // _nibbler.emplace_back((nibbler_t){false, 9, 15});
 }
 
 void Nibbler::InitMap()
 {
     std::string row;
-    for (int i = 0; i < GRID_SIZE; i++) {
+    for (int i = 0; i < GRID_SIZE_X; i++) {
         row.append("0");
     }
 
-    for (int i = 0; i < GRID_SIZE; i++) {
+    for (int i = 0; i < GRID_SIZE_Y; i++) {
         _game_map.emplace_back(row);
-    }
-
-    for (auto const &s : _game_map) {
-        std::cout << s << std::endl;
     }
 }
 
@@ -60,12 +43,12 @@ void Nibbler::InitApple()
     int pos_x, pos_y;
 
     do {
-        pos_x = rand() % 50;
-    } while (pos_x >= 22 && pos_x <= 25);
+        pos_x = rand() % GRID_SIZE_X;
+    } while (pos_x >= 9 && pos_x <= 10);
 
     do {
-        pos_y = rand() % 50;
-    } while (pos_y == 25);
+        pos_y = rand() % GRID_SIZE_Y;
+    } while (pos_y == 15);
 
     _apple.x = pos_x;
     _apple.y = pos_y;
@@ -73,13 +56,13 @@ void Nibbler::InitApple()
 
 void Nibbler::RandomizeApplePos()
 {
-    _apple.x = rand() % 50;
-    _apple.y = rand() % 50;
+    _apple.x = rand() % GRID_SIZE_X;
+    _apple.y = rand() % GRID_SIZE_Y;
 
     for (size_t i = 0; i < _nibbler.size(); i++) {
         if (_apple.x == _nibbler[i].x && _apple.y == _nibbler[i].y) {
-            _apple.x = rand() % 50;
-            _apple.y = rand() % 50;
+            _apple.x = rand() % GRID_SIZE_X;
+            _apple.y = rand() % GRID_SIZE_Y;
             i = 0;
         }
     }
@@ -111,7 +94,7 @@ void Nibbler::UpdateNibblerHeadPos(evtKey key)
         _nibbler[0].x -= 1;
     }
     if (_direction == direction::RIGHT) {
-        if (_nibbler[0].x < 49)
+        if (_nibbler[0].x < GRID_SIZE_X - 1)
             _nibbler[0].x += 1;
         else
             exit(1);
@@ -162,8 +145,8 @@ void Nibbler::UpdateNibblerPos(evtKey key)
 
 void Nibbler::ClearMap()
 {
-    for (size_t y = 0; y < GRID_SIZE; y++) {
-        for (size_t x = 0; x < GRID_SIZE; x++) {
+    for (size_t y = 0; y < GRID_SIZE_Y; y++) {
+        for (size_t x = 0; x < GRID_SIZE_X; x++) {
             _game_map[y][x] = '0';
         }
     }
