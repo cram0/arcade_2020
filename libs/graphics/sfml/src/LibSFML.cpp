@@ -9,9 +9,20 @@
 
 LibSFML::LibSFML()
 {
-    _window.create((sf::VideoMode){800, 800, 32}, "Title", sf::Style::Close);
+    _window.create((sf::VideoMode){712, 800, 32}, "Title", sf::Style::Close);
     _window.setFramerateLimit(60);
     _clock.restart();
+    _score_font.loadFromFile("libs/graphics/font/OpenSans-Regular.ttf");
+    _score_value.setFont(_score_font);
+    _score_value.setString("0");
+    _score_value.setPosition((sf::Vector2f){190.0, 710.0});
+    _score_value.setFillColor(sf::Color::White);
+    _score_value.setCharacterSize(50);
+    _score_label.setFont(_score_font);
+    _score_label.setString("SCORE: ");
+    _score_label.setPosition((sf::Vector2f){10.0, 710.0});
+    _score_label.setFillColor(sf::Color::White);
+    _score_label.setCharacterSize(50);
 }
 
 LibSFML::~LibSFML()
@@ -30,7 +41,6 @@ void LibSFML::DrawMap(std::vector<std::string> map)
     sf::RectangleShape bg_rect;
     bg_rect.setPosition(r_pos);
     bg_rect.setSize((sf::Vector2f){CELL_SIZE * GRID_SIZE, CELL_SIZE * GRID_SIZE});
-    // bg_rect.setFillColor(sf::Color::White);
     bg_rect.setOutlineThickness(1.0);
     _window.draw(bg_rect);
 
@@ -55,32 +65,45 @@ void LibSFML::DrawMap(std::vector<std::string> map)
     }
 }
 
-void LibSFML::DrawScore(std::string const &score)
+void LibSFML::DrawScore(int score)
 {
-
+    _score_value.setString(std::to_string(score));
+    _window.draw(_score_value);
+    _window.draw(_score_label);
 }
 
 void LibSFML::Display()
 {
-    _window.display();
+    while (_clock.getElapsedTime().asMilliseconds() <= 50.0) {
+        _window.display();
+    }
+    _clock.restart();
 }
 
 evtKey LibSFML::GetEventKey()
 {
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::KeyPressed) {
-            switch (_event.key.code) {
-                case sf::Keyboard::Up:
-                    return (evtKey::UP);
-                case sf::Keyboard::Down:
-                    return (evtKey::DOWN);
-                case sf::Keyboard::Left:
-                    return (evtKey::LEFT);
-                case sf::Keyboard::Right:
-                    return (evtKey::RIGHT);
-                default:
-                    break;
-            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+                return(evtKey::UP);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+                return(evtKey::DOWN);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                return(evtKey::LEFT);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                return(evtKey::RIGHT);
+            // switch (_event.key.code) {
+            //     case sf::Keyboard::Up:
+            //         return (evtKey::UP);
+            //     case sf::Keyboard::Down:
+            //         return (evtKey::DOWN);
+            //     case sf::Keyboard::Left:
+            //         return (evtKey::LEFT);
+            //     case sf::Keyboard::Right:
+            //         return (evtKey::RIGHT);
+            //     default:
+            //         break;
+            // }
         }
     }
     return (evtKey::NONE);

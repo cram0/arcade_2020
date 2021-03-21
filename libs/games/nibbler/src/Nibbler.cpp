@@ -11,6 +11,7 @@ Nibbler::Nibbler()
 {
     InitMap();
     InitNibbler();
+    InitApple();
 }
 
 Nibbler::~Nibbler()
@@ -24,6 +25,17 @@ void Nibbler::InitNibbler()
     _nibbler.emplace_back((nibbler_t){false, 24, 25});
     _nibbler.emplace_back((nibbler_t){false, 23, 25});
     _nibbler.emplace_back((nibbler_t){false, 22, 25});
+    _nibbler.emplace_back((nibbler_t){false, 21, 25});
+    _nibbler.emplace_back((nibbler_t){false, 20, 25});
+    _nibbler.emplace_back((nibbler_t){false, 19, 25});
+    _nibbler.emplace_back((nibbler_t){false, 18, 25});
+    _nibbler.emplace_back((nibbler_t){false, 17, 25});
+    _nibbler.emplace_back((nibbler_t){false, 16, 25});
+    _nibbler.emplace_back((nibbler_t){false, 15, 25});
+    _nibbler.emplace_back((nibbler_t){false, 14, 25});
+    _nibbler.emplace_back((nibbler_t){false, 13, 25});
+    _nibbler.emplace_back((nibbler_t){false, 12, 25});
+    _nibbler.emplace_back((nibbler_t){false, 11, 25});
 }
 
 void Nibbler::InitMap()
@@ -39,6 +51,37 @@ void Nibbler::InitMap()
 
     for (auto const &s : _game_map) {
         std::cout << s << std::endl;
+    }
+}
+
+void Nibbler::InitApple()
+{
+    srand((unsigned int)time(NULL));
+    int pos_x, pos_y;
+
+    do {
+        pos_x = rand() % 50;
+    } while (pos_x >= 22 && pos_x <= 25);
+
+    do {
+        pos_y = rand() % 50;
+    } while (pos_y == 25);
+
+    _apple.x = pos_x;
+    _apple.y = pos_y;
+}
+
+void Nibbler::RandomizeApplePos()
+{
+    _apple.x = rand() % 50;
+    _apple.y = rand() % 50;
+
+    for (size_t i = 0; i < _nibbler.size(); i++) {
+        if (_apple.x == _nibbler[i].x && _apple.y == _nibbler[i].y) {
+            _apple.x = rand() % 50;
+            _apple.y = rand() % 50;
+            i = 0;
+        }
     }
 }
 
@@ -68,25 +111,52 @@ void Nibbler::UpdateNibblerHeadPos(evtKey key)
         _nibbler[0].x -= 1;
     }
     if (_direction == direction::RIGHT) {
-        _nibbler[0].x += 1;
+        if (_nibbler[0].x < 49)
+            _nibbler[0].x += 1;
+        else
+            exit(1);
     }
 }
 
 void Nibbler::UpdateNibblerBodyPos(std::vector<nibbler_t> old_nibbler)
 {
-
+    if (_is_apple_eaten) {
+        _nibbler.emplace_back((nibbler_t){false, 0, 0});
+        _is_apple_eaten = false;
+    }
     for (size_t i = 0; i < _nibbler.size(); i++) {
         if (!_nibbler[i].is_head) {
             _nibbler[i].x = old_nibbler[i - 1].x;
             _nibbler[i].y = old_nibbler[i - 1].y;
         }
     }
+
+}
+
+void Nibbler::CheckHeadCollision(std::vector<nibbler_t> old_nibbler)
+{
+    for (auto n : old_nibbler) {
+        if (_nibbler[0].x == n.x && _nibbler[0].y == n.y) {
+            exit(1);
+        }
+    }
+}
+
+void Nibbler::CheckAppleCollision()
+{
+    if (_nibbler[0].x == _apple.x && _nibbler[0].y == _apple.y) {
+        _is_apple_eaten = true;
+        _score += 10;
+        RandomizeApplePos();
+    }
 }
 
 void Nibbler::UpdateNibblerPos(evtKey key)
 {
+    CheckAppleCollision();
     std::vector<nibbler_t> old_nibbler = _nibbler;
     UpdateNibblerHeadPos(key);
+    CheckHeadCollision(old_nibbler);
     UpdateNibblerBodyPos(old_nibbler);
 }
 
@@ -101,6 +171,8 @@ void Nibbler::ClearMap()
 
 void Nibbler::UpdateMap()
 {
+    _game_map[_apple.y][_apple.x] = '1';
+
     for (auto n : _nibbler) {
         if (n.is_head)
             _game_map[n.y][n.x] = '3';
@@ -122,7 +194,7 @@ std::vector<std::string> Nibbler::GetMap()
     return (_game_map);
 }
 
-std::string Nibbler::GetScore()
+int Nibbler::GetScore()
 {
     return (_score);
 }

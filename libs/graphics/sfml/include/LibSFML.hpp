@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <iostream>
 
 #include "IGraphic.hpp"
 
@@ -26,7 +27,7 @@ class LibSFML : public IGraphic {
 
         void Initialize();
         void DrawMap(std::vector<std::string> map);
-        void DrawScore(std::string const &score);
+        void DrawScore(int score);
         void Display();
         void Destroy();
         void Clear();
@@ -38,6 +39,9 @@ class LibSFML : public IGraphic {
         sf::RenderWindow _window;
         sf::Event _event;
         sf::Clock _clock;
+        sf::Text _score_value;
+        sf::Text _score_label;
+        sf::Font _score_font;
 
 };
 

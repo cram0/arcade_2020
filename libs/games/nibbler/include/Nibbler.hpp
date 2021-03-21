@@ -14,6 +14,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <random>
+#include <time.h>
 
 #define CELL_SIZE 14.0
 #define GRID_SIZE 50
@@ -22,9 +24,14 @@ class Nibbler : public IGame {
 
     typedef struct {
         bool is_head = false;
+        int x = 0;
+        int y = 0;
+    } nibbler_t;
+
+    typedef struct {
         int x;
         int y;
-    } nibbler_t;
+    } apple_t;
 
     typedef enum {
         UP = 1,
@@ -39,15 +46,20 @@ class Nibbler : public IGame {
 
         void InitMap();
         void InitNibbler();
+        void InitApple();
 
         std::vector<std::string> GetMap();
-        std::string GetScore();
+        int GetScore();
 
         void Update(evtKey key);
 
         void ClearMap();
         void UpdateMap();
 
+        void RandomizeApplePos();
+
+        void CheckAppleCollision();
+        void CheckHeadCollision(std::vector<nibbler_t> old_nibbler);
         void UpdateNibblerHeadPos(evtKey key);
         void UpdateNibblerBodyPos(std::vector<nibbler_t> old_nibbler);
         void UpdateNibblerDirection(evtKey key);
@@ -57,8 +69,10 @@ class Nibbler : public IGame {
     private:
         std::vector<std::string> _game_map;
         std::vector<nibbler_t> _nibbler;
+        bool _is_apple_eaten = false;
+        apple_t _apple;
         direction _direction = direction::RIGHT;
-        std::string _score;
+        int _score = 0;
 
 };
 

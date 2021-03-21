@@ -16,7 +16,7 @@ class IGame {
         virtual ~IGame() = default;
 
         virtual std::vector<std::string> GetMap() = 0;
-        virtual std::string GetScore() = 0;
+        virtual int GetScore() = 0;
         virtual void Update(evtKey key) = 0;
 
     protected:
