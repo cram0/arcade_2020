@@ -35,46 +35,67 @@ void LibSFML::Initialize()
 
 }
 
+void LibSFML::DrawRectangle(char id, sf::Vector2f r_pos)
+{
+    sf::RectangleShape rect;
+    rect.setSize((sf::Vector2f){CELL_SIZE, CELL_SIZE});
+    rect.setPosition(r_pos);
+    if (id == '0')
+        rect.setFillColor(sf::Color::Black);
+    if (id == '1')
+        rect.setFillColor(sf::Color::Red);
+    if (id == '2')
+        rect.setFillColor(sf::Color::White);
+    if (id == '3')
+        rect.setFillColor(sf::Color::Green);
+    if (id == '4')
+        rect.setFillColor((sf::Color){0, 100, 255});
+    if (id == '5') {
+        float offset = (CELL_SIZE / 6.0) / 2.0;
+        float gum_pos = CELL_SIZE / 2.0 - offset;
+        rect.setSize((sf::Vector2f){CELL_SIZE / 6, CELL_SIZE / 6});
+        rect.setFillColor(sf::Color::White);
+        rect.move((sf::Vector2f){gum_pos, gum_pos});
+    }
+    if (id == '-') {
+        rect.setSize((sf::Vector2f){CELL_SIZE, CELL_SIZE / 2});
+        rect.move((sf::Vector2f){0, (CELL_SIZE / 2) - ((CELL_SIZE / 2) / 2)});
+    }
+    _window.draw(rect);
+}
+
+void LibSFML::DrawCircle(char id, sf::Vector2f r_pos)
+{
+    sf::CircleShape circ;
+    circ.setRadius(CELL_SIZE / 2);
+    circ.setPosition(r_pos);
+    if (id == 'a')
+        circ.setFillColor(sf::Color::Yellow);
+    if (id == 'u') {
+        float offset = (CELL_SIZE / 3.0) / 2.0;
+        circ.setFillColor(sf::Color::White);
+        circ.setRadius(CELL_SIZE / 3);
+        circ.move((sf::Vector2f){offset, offset});
+    }
+    if (id == 'p')
+        circ.setFillColor((sf::Color){255, 192, 203});
+    if (id == 'b')
+        circ.setFillColor(sf::Color::Red);
+    if (id == 'i')
+        circ.setFillColor(sf::Color::Cyan);
+    if (id == 'c')
+        circ.setFillColor((sf::Color){255,165,0});
+    _window.draw(circ);
+}
+
 void LibSFML::DrawShapeFromID(char id, sf::Vector2f r_pos)
 {
     sf::CircleShape circ;
-    circ.setRadius(CELL_SIZE);
-    sf::RectangleShape rect;
-    rect.setSize((sf::Vector2f){CELL_SIZE, CELL_SIZE});
-    if (id >= '0' && id <= '9') {
-        if (id == '0')
-            rect.setFillColor(sf::Color::Black);
-        if (id == '1')
-            rect.setFillColor(sf::Color::Red);
-        if (id == '2')
-            rect.setFillColor(sf::Color::White);
-        if (id == '3')
-            rect.setFillColor(sf::Color::Green);
-        if (id == '4')
-            rect.setFillColor(sf::Color::Blue);
-        rect.setPosition(r_pos);
-        _window.draw(rect);
-    }
-    else {
-        if (id == 'a')
-            circ.setFillColor(sf::Color::Yellow);
-        if (id == 'x') {
-            circ.setRadius(CELL_SIZE / 2);
-            circ.setFillColor(sf::Color::White);
-        }
-        if (id == 'u')
-            circ.setFillColor(sf::Color::White);
-        if (id == 'p')
-            circ.setFillColor((sf::Color){255, 192, 203});
-        if (id == 'b')
-            circ.setFillColor(sf::Color::Red);
-        if (id == 'i')
-            circ.setFillColor(sf::Color::Cyan);
-        if (id == 'c')
-            circ.setFillColor((sf::Color){255,165,0});
-        circ.setPosition(r_pos);
-        _window.draw(circ);
-    }
+    circ.setRadius(0.5);
+    if ((id >= '0' && id <= '9') || id == '-')
+        DrawRectangle(id, r_pos);
+    else
+        DrawCircle(id, r_pos);
 }
 
 void LibSFML::DrawMap(std::vector<std::string> map)
@@ -84,6 +105,7 @@ void LibSFML::DrawMap(std::vector<std::string> map)
     bg_rect.setPosition(r_pos);
     bg_rect.setSize((sf::Vector2f){CELL_SIZE * GRID_SIZE_X, CELL_SIZE * GRID_SIZE_Y});
     bg_rect.setOutlineThickness(1.0);
+    bg_rect.setFillColor(sf::Color::Black);
     _window.draw(bg_rect);
 
     for (int y = 0; y < GRID_SIZE_Y; y++) {

@@ -16,7 +16,7 @@ DLLoader::DLLoader()
     _graphic_libs_map["arcade_ncurses.so"] = "getLibNcurses";
 
     _game_libs_map["arcade_nibbler.so"] = "getLibNibbler";
-    _game_libs_map["arcade_sfml.so"] = "getLibSFML";
+    _game_libs_map["arcade_pacman.so"] = "getLibPacman";
 }
 
 DLLoader::~DLLoader()

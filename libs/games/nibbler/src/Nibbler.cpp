@@ -22,7 +22,9 @@ Nibbler::~Nibbler()
 void Nibbler::InitNibbler()
 {
     _nibbler.emplace_back((nibbler_t){true, 10, 15});
-    // _nibbler.emplace_back((nibbler_t){false, 9, 15});
+    _nibbler.emplace_back((nibbler_t){false, 9, 15});
+    _nibbler.emplace_back((nibbler_t){false, 8, 15});
+    _nibbler.emplace_back((nibbler_t){false, 7, 15});
 }
 
 void Nibbler::InitMap()
@@ -44,7 +46,7 @@ void Nibbler::InitApple()
 
     do {
         pos_x = rand() % GRID_SIZE_X;
-    } while (pos_x >= 9 && pos_x <= 10);
+    } while (pos_x >= 7 && pos_x <= 10);
 
     do {
         pos_y = rand() % GRID_SIZE_Y;

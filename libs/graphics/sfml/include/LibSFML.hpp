@@ -17,7 +17,7 @@
 
 #include "evtVar.hpp"
 
-#define CELL_SIZE 23.0
+#define CELL_SIZE 22.0
 #define GRID_SIZE_X 28
 #define GRID_SIZE_Y 31
 
@@ -27,6 +27,8 @@ class LibSFML : public IGraphic {
         ~LibSFML();
 
         void Initialize();
+        void DrawRectangle(char id, sf::Vector2f r_pos);
+        void DrawCircle(char id, sf::Vector2f r_pos);
         void DrawShapeFromID(char id, sf::Vector2f r_pos);
         void DrawMap(std::vector<std::string> map);
         void DrawScore(int score);

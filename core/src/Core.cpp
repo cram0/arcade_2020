@@ -20,7 +20,7 @@ Core::~Core()
 void Core::Run()
 {
     IGraphic *graph = GetDLLoader().GetGraphicLibrary("libs/graphics/sfml/arcade_sfml.so");
-    IGame *game = GetDLLoader().GetGameLibrary("libs/games/nibbler/arcade_nibbler.so");
+    IGame *game = GetDLLoader().GetGameLibrary("libs/games/pacman/arcade_pacman.so");
     SetGraphic(graph);
     SetGame(game);
 
