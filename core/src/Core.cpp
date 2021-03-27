@@ -25,14 +25,20 @@ void Core::Run()
     while (IsRunning()) {
         GetGraphic()->Clear();
         if (GetCurrentGame() == NO_GAME) {
-            GetGraphic()->DisplayMenu();
             evtKey key = GetGraphic()->GetEventKey();
             ReadCoreEvent(key);
+            GetGraphic()->DisplayMenu();
+        }
+        else if (GetCurrentGame() == GAME_OVER) {
+            evtKey key = GetGraphic()->GetEventKey();
+            ReadCoreEvent(key);
+            GetGraphic()->DisplayGameOver();
         }
         else {
             evtKey key = GetGraphic()->GetEventKey();
             ReadCoreEvent(key);
             GetGame()->Update(key);
+            CheckIfGameOver(GetGame()->IsGameOver());
             GetGraphic()->DrawMap(GetGame()->GetMap());
             GetGraphic()->DrawScore(GetGame()->GetScore());
             GetGraphic()->Display();
@@ -40,14 +46,20 @@ void Core::Run()
     }
 }
 
+void Core::CheckIfGameOver(bool state)
+{
+    if (state)
+        _current_game = GAME_OVER;
+}
+
 void Core::ChangeCurrentGame(evtKey evt)
 {
     if (_current_game == NO_GAME) {
         if (evt == evtKey::GO_MENU)
             return;
-        if (evt == evtKey::NEXT_GAME)
-            _current_game = game_e::NIBBLER;
         if (evt == evtKey::PREV_GAME)
+            _current_game = game_e::NIBBLER;
+        if (evt == evtKey::NEXT_GAME)
             _current_game = game_e::PACMAN;
     }
     if (evt == evtKey::PREV_GAME)
@@ -55,37 +67,45 @@ void Core::ChangeCurrentGame(evtKey evt)
     if (evt == evtKey::NEXT_GAME)
         _current_game = game_e::PACMAN;
     if (evt == evtKey::GO_MENU) {
-        _is_pause = true;
+        _game_before_pause = _current_game;
+        _current_game = game_e::NO_GAME;
+    }
+    if (evt == evtKey::CONFIRM_NAME && _current_game == game_e::GAME_OVER) {
         _current_game = game_e::NO_GAME;
     }
 }
 
 void Core::ReadCoreEvent(evtKey evt)
 {
-    if (evt == evtKey::GO_MENU) {
-        ChangeCurrentGame(evt);
-    }
-    if (evt == evtKey::RESET_GAME) {
-        SetGame(GetDLLoader().SwitchGame(evt, _current_game));
-    }
-    if (evt == evtKey::NEXT_GAME) {
-        if (_is_pause == true) {
+    if (_current_game != game_e::GAME_OVER) {
+        if (evt == evtKey::GO_MENU) {
             ChangeCurrentGame(evt);
-            _is_pause = false;
         }
-        else {
-            ChangeCurrentGame(evt);
+        if (evt == evtKey::RESET_GAME) {
             SetGame(GetDLLoader().SwitchGame(evt, _current_game));
         }
-    }
-    if (evt == evtKey::PREV_GAME) {
-        if (_is_pause == true) {
-            ChangeCurrentGame(evt);
-            _is_pause = false;
+        if (evt == evtKey::NEXT_GAME) {
+            if (_game_before_pause == game_e::PACMAN) {
+                ChangeCurrentGame(evt);
+            }
+            else {
+                ChangeCurrentGame(evt);
+                SetGame(GetDLLoader().SwitchGame(evt, _current_game));
+            }
         }
-        else {
+        if (evt == evtKey::PREV_GAME) {
+            if (_game_before_pause == game_e::NIBBLER) {
+                ChangeCurrentGame(evt);
+            }
+            else {
+                ChangeCurrentGame(evt);
+                SetGame(GetDLLoader().SwitchGame(evt, _current_game));
+            }
+        }
+    }
+    if (evt == evtKey::CONFIRM_NAME) {
+        if (_current_game == game_e::GAME_OVER) {
             ChangeCurrentGame(evt);
-            SetGame(GetDLLoader().SwitchGame(evt, _current_game));
         }
     }
 }

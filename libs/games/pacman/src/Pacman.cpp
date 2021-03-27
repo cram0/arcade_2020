@@ -43,6 +43,11 @@ void Pacman::InitMap()
     }
 }
 
+bool Pacman::IsGameOver()
+{
+    return (_is_game_over);
+}
+
 std::vector<std::string> Pacman::GetMap()
 {
     std::vector<std::string> _temp_map = _game_map;
@@ -52,16 +57,28 @@ std::vector<std::string> Pacman::GetMap()
         // }
         // _temp_map[g.GetGotoY()][g.GetGotoX()] = '3';
         if (g.GetName() == Ghost::ghost_name::PINKY) {
-            _temp_map[g.GetY()][g.GetX()] = 'p';
+            if (g.IsScared())
+                _temp_map[g.GetY()][g.GetX()] = 's';
+            else
+                _temp_map[g.GetY()][g.GetX()] = 'p';
         }
         if (g.GetName() == Ghost::ghost_name::INKY) {
-            _temp_map[g.GetY()][g.GetX()] = 'i';
+            if (g.IsScared())
+                _temp_map[g.GetY()][g.GetX()] = 's';
+            else
+                _temp_map[g.GetY()][g.GetX()] = 'i';
         }
         if (g.GetName() == Ghost::ghost_name::BLINKY) {
-            _temp_map[g.GetY()][g.GetX()] = 'b';
+            if (g.IsScared())
+                _temp_map[g.GetY()][g.GetX()] = 's';
+            else
+                _temp_map[g.GetY()][g.GetX()] = 'b';
         }
         if (g.GetName() == Ghost::ghost_name::CLYDE) {
-            _temp_map[g.GetY()][g.GetX()] = 'c';
+            if (g.IsScared())
+                _temp_map[g.GetY()][g.GetX()] = 's';
+            else
+                _temp_map[g.GetY()][g.GetX()] = 'c';
         }
     }
     _temp_map[_pacman.y][_pacman.x] = 'a';
@@ -116,6 +133,11 @@ void Pacman::CheckPacmanCollision()
         _game_map[_pacman.y][_pacman.x] = '0';
         _score += 100;
         SetGhostsToScared();
+    }
+    for (auto g : _ghost_vector) {
+        if (_pacman.x == g.GetX() && _pacman.y == g.GetY()) {
+            _is_game_over = true;
+        }
     }
 }
 

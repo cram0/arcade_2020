@@ -45,6 +45,7 @@ class Pacman : public IGame {
 
         void InitMap();
         void InitGhosts();
+        bool IsGameOver();
 
         std::vector<std::string> GetMap();
         int GetScore();
@@ -73,6 +74,7 @@ class Pacman : public IGame {
         std::vector<Ghost> _ghost_vector;
         bool _visited_map[GRID_SIZE_Y][GRID_SIZE_X];
         int _score = 0;
+        bool _is_game_over = false;
 
         pacman_t _pacman;
 };

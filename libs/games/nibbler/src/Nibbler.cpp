@@ -56,6 +56,11 @@ void Nibbler::InitApple()
     _apple.y = pos_y;
 }
 
+bool Nibbler::IsGameOver()
+{
+    return (_is_game_over);
+}
+
 void Nibbler::RandomizeApplePos()
 {
     _apple.x = rand() % GRID_SIZE_X;

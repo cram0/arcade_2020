@@ -10,7 +10,6 @@
 LibSFML::LibSFML()
 {
     Initialize();
-
 }
 
 LibSFML::~LibSFML()
@@ -23,41 +22,63 @@ void LibSFML::Initialize()
     _window.create((sf::VideoMode){WINDOW_WIDTH, WINDOW_HEIGHT, 32}, "Title", sf::Style::Close);
     _window.setFramerateLimit(60);
     _clock.restart();
+    InitFont();
     InitScoreText();
     InitMenuPrompt();
+    InitGameOverPrompt();
+}
+
+void LibSFML::InitFont()
+{
+    _font.loadFromFile("libs/graphics/font/OpenSans-Regular.ttf");
+}
+
+void LibSFML::InitGameOverPrompt()
+{
+    _player_name_input = "";
+    _player_name = sf::Text("", _font, 50);
+    _player_name.setPosition((sf::Vector2f){10.0, 710.0});
+    _player_name.setFillColor(sf::Color::White);
+
+    _game_over_prompt = sf::Text("Game Over", _font, 80);
+    _game_over_prompt.setPosition((sf::Vector2f){WINDOW_WIDTH / 2 - _game_over_prompt.getLocalBounds().width / 2, WINDOW_HEIGHT / 4 - _game_over_prompt.getLocalBounds().height / 2});
+    _game_over_prompt.setFillColor(sf::Color::White);
+
+    _game_over_enter_name = sf::Text("Enter your name :", _font, 40);
+    _game_over_enter_name.setPosition((sf::Vector2f){10 , WINDOW_HEIGHT - 100 - _game_over_enter_name.getLocalBounds().height - 100});
+    _game_over_enter_name.setFillColor(sf::Color::White);
+
+    _game_over_score_prompt = sf::Text("Score : ", _font, 30);
+    _game_over_score_prompt.setPosition(WINDOW_WIDTH / 2 - _game_over_score_prompt.getLocalBounds().width / 2, _game_over_prompt.getPosition().y + 100);
+
+    _game_over_score_value = _score_value;
+    _game_over_score_value.setPosition(_game_over_score_prompt.getPosition().x + 100, _game_over_score_prompt.getPosition().y);
+
 }
 
 void LibSFML::InitScoreText()
 {
-    _score_font.loadFromFile("libs/graphics/font/OpenSans-Regular.ttf");
-    _score_value.setFont(_score_font);
-    _score_value.setString("0");
+    _score_value = sf::Text("0", _font, 50);
     _score_value.setPosition((sf::Vector2f){190.0, 710.0});
     _score_value.setFillColor(sf::Color::White);
-    _score_value.setCharacterSize(50);
-    _score_label.setFont(_score_font);
-    _score_label.setString("SCORE: ");
+
+    _score_label = sf::Text("SCORE", _font, 50);
     _score_label.setPosition((sf::Vector2f){10.0, 710.0});
     _score_label.setFillColor(sf::Color::White);
-    _score_label.setCharacterSize(50);
 }
 
 void LibSFML::InitMenuPrompt()
 {
-    _menu_prompt.setFont(_score_font);
+    _menu_prompt = sf::Text("\t\tArcade :", _font, 40);
     _menu_prompt.setPosition((sf::Vector2f){WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4});
-    _menu_prompt.setString("\t\tArcade :");
-    _menu_prompt.setCharacterSize(40);
     _menu_prompt.setFillColor(sf::Color::White);
-    _menu_prompt_choice_one.setFont(_score_font);
+
+    _menu_prompt_choice_one = sf::Text("Nibbler\n\tO", _font, 30);
     _menu_prompt_choice_one.setPosition((sf::Vector2f){_menu_prompt.getPosition().x, _menu_prompt.getPosition().y + 100});
-    _menu_prompt_choice_one.setString("Nibbler\n\tO");
-    _menu_prompt_choice_one.setCharacterSize(30);
     _menu_prompt_choice_one.setFillColor(sf::Color::White);
-    _menu_prompt_choice_two.setFont(_score_font);
+
+    _menu_prompt_choice_two = sf::Text("Pacman\n\tP", _font, 30);
     _menu_prompt_choice_two.setPosition((sf::Vector2f){_menu_prompt_choice_one.getPosition().x + 170, _menu_prompt_choice_one.getPosition().y});
-    _menu_prompt_choice_two.setString("Pacman\n\tP");
-    _menu_prompt_choice_two.setCharacterSize(30);
     _menu_prompt_choice_two.setFillColor(sf::Color::White);
 }
 
@@ -111,6 +132,8 @@ void LibSFML::DrawCircle(char id, sf::Vector2f r_pos)
         circ.setFillColor(sf::Color::Cyan);
     if (id == 'c')
         circ.setFillColor((sf::Color){255,165,0});
+    if (id == 's')
+        circ.setFillColor((sf::Color){0, 100, 255});
     _window.draw(circ);
 }
 
@@ -151,6 +174,42 @@ void LibSFML::DrawScore(int score)
     _window.draw(_score_label);
 }
 
+void LibSFML::InputGameOverName()
+{
+    while (_window.pollEvent(_event)) {
+        if (_event.type == sf::Event::TextEntered) {
+            if (_event.text.unicode == '\b') {
+                if (!_player_name_input.isEmpty())
+                    _player_name_input.erase(_player_name_input.getSize() - 1, 1);
+                _player_name.setString(_player_name_input);
+            }
+            else if (_event.text.unicode > 31 && _event.text.unicode < 127) {
+                _player_name_input += _event.text.unicode;
+                _player_name.setString(_player_name_input);
+            }
+        }
+    }
+}
+
+void LibSFML::UpdateGameOverScoreValue()
+{
+    _game_over_score_value = _score_value;
+    _game_over_score_value.setPosition(_game_over_score_prompt.getPosition().x + 100, _game_over_score_prompt.getPosition().y);
+    _game_over_score_value.setCharacterSize(30);
+}
+
+void LibSFML::DisplayGameOver()
+{
+    InputGameOverName();
+    UpdateGameOverScoreValue();
+    _window.draw(_game_over_score_prompt);
+    _window.draw(_game_over_score_value);
+    _window.draw(_game_over_prompt);
+    _window.draw(_game_over_enter_name);
+    _window.draw(_player_name);
+    _window.display();
+}
+
 void LibSFML::DisplayMenu()
 {
     _window.draw(_menu_prompt);
@@ -186,8 +245,10 @@ evtKey LibSFML::GetEventKey()
                     return (evtKey::NEXT_GAME);
                 case sf::Keyboard::R:
                     return (evtKey::RESET_GAME);
-                case sf::Keyboard::Enter:
+                case sf::Keyboard::Delete:
                     return (evtKey::GO_MENU);
+                case sf::Keyboard::Enter:
+                    return (evtKey::CONFIRM_NAME);
                 default:
                     return (evtKey::NONE);
             }

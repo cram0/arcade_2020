@@ -23,6 +23,7 @@ class Core {
         void Run();
         bool IsRunning();
         void ReadCoreEvent(evtKey evt);
+        void CheckIfGameOver(bool state);
 
         IGame *GetGame();
         IGraphic *GetGraphic();
@@ -37,7 +38,7 @@ class Core {
     private:
         bool _running = 1;
         game_e _current_game = NO_GAME;
-        bool _is_pause = false;
+        game_e _game_before_pause = NO_GAME;
 
         IGame *_game;
         IGraphic *_graphlib;

@@ -29,31 +29,51 @@ class LibSFML : public IGraphic {
         ~LibSFML();
 
         void Initialize();
+        void InitFont();
         void InitMenuPrompt();
         void InitScoreText();
+        void InitGameOverPrompt();
+
+        void UpdateGameOverScoreValue();
+
         void DrawRectangle(char id, sf::Vector2f r_pos);
         void DrawCircle(char id, sf::Vector2f r_pos);
         void DrawShapeFromID(char id, sf::Vector2f r_pos);
         void DrawMap(std::vector<std::string> map);
         void DrawScore(int score);
+
         void Display();
         void DisplayMenu();
+        void DisplayGameOver();
+
         void Destroy();
         void Clear();
         void Close();
+
         evtKey GetEventKey();
+
+        void InputGameOverName();
 
     protected:
     private:
         sf::RenderWindow _window;
         sf::Event _event;
         sf::Clock _clock;
+
         sf::Text _score_value;
         sf::Text _score_label;
-        sf::Font _score_font;
+        sf::Font _font;
+
         sf::Text _menu_prompt;
         sf::Text _menu_prompt_choice_one;
         sf::Text _menu_prompt_choice_two;
+
+        sf::Text _game_over_prompt;
+        sf::Text _game_over_enter_name;
+        sf::Text _game_over_score_prompt;
+        sf::Text _game_over_score_value;
+        sf::String _player_name_input;
+        sf::Text _player_name;
 
 };
 

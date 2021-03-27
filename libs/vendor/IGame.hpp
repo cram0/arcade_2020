@@ -16,7 +16,8 @@
 typedef enum {
     NO_GAME,
     NIBBLER,
-    PACMAN
+    PACMAN,
+    GAME_OVER,
 } game_e;
 
 class IGame {
@@ -25,7 +26,7 @@ class IGame {
 
         virtual std::vector<std::string> GetMap() = 0;
         virtual int GetScore() = 0;
-        // virtual bool IsGameOver() = 0;
+        virtual bool IsGameOver() = 0;
         virtual void Update(evtKey key) = 0;
 
     protected:
