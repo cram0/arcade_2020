@@ -24,15 +24,17 @@ DLLoader::~DLLoader()
 
 }
 
-IGame *DLLoader::SwitchGame(game_e current_game)
+IGame *DLLoader::SwitchGame(evtKey evt, game_e game_name)
 {
-    if (current_game == game_e::NIBBLER) {
-        
+    if (evt == evtKey::NEXT_GAME)
         return (GetGameLibrary("libs/games/pacman/arcade_pacman.so"));
-    }
-    else {
-
+    if (evt == evtKey::PREV_GAME)
         return (GetGameLibrary("libs/games/nibbler/arcade_nibbler.so"));
+    if (evt == evtKey::RESET_GAME) {
+        if (game_name == game_e::NIBBLER)
+            return (GetGameLibrary("libs/games/nibbler/arcade_nibbler.so"));
+        if (game_name == game_e::PACMAN)
+            return (GetGameLibrary("libs/games/pacman/arcade_pacman.so"));
     }
 }
 

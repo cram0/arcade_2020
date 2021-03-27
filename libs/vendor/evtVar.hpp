@@ -15,7 +15,9 @@ typedef enum {
     LEFT,
     RIGHT,
     PREV_GAME,
-    NEXT_GAME
+    NEXT_GAME,
+    RESET_GAME,
+    GO_MENU
 } evtKey;
 
 #endif /* !EVTVAR_HPP_ */

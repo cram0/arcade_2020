@@ -31,12 +31,13 @@ class Core {
 
         void SetGame(IGame *game);
         void SetGraphic(IGraphic *graphlib);
-        void ChangeCurrentGame();
+        void ChangeCurrentGame(evtKey evt);
 
     protected:
     private:
         bool _running = 1;
-        game_e _current_game = NIBBLER;
+        game_e _current_game = NO_GAME;
+        bool _is_pause = false;
 
         IGame *_game;
         IGraphic *_graphlib;

@@ -21,6 +21,7 @@ class IGraphic {
         virtual void DrawMap(std::vector<std::string> map) = 0;
         virtual void DrawScore(int score) = 0;
         virtual void Display() = 0;
+        virtual void DisplayMenu() = 0;
         virtual void Destroy() = 0;
         virtual void Clear() = 0;
         virtual void Close() = 0;

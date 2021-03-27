@@ -9,9 +9,26 @@
 
 LibSFML::LibSFML()
 {
-    _window.create((sf::VideoMode){646, 800, 32}, "Title", sf::Style::Close);
+    Initialize();
+
+}
+
+LibSFML::~LibSFML()
+{
+
+}
+
+void LibSFML::Initialize()
+{
+    _window.create((sf::VideoMode){WINDOW_WIDTH, WINDOW_HEIGHT, 32}, "Title", sf::Style::Close);
     _window.setFramerateLimit(60);
     _clock.restart();
+    InitScoreText();
+    InitMenuPrompt();
+}
+
+void LibSFML::InitScoreText()
+{
     _score_font.loadFromFile("libs/graphics/font/OpenSans-Regular.ttf");
     _score_value.setFont(_score_font);
     _score_value.setString("0");
@@ -25,14 +42,23 @@ LibSFML::LibSFML()
     _score_label.setCharacterSize(50);
 }
 
-LibSFML::~LibSFML()
+void LibSFML::InitMenuPrompt()
 {
-
-}
-
-void LibSFML::Initialize()
-{
-
+    _menu_prompt.setFont(_score_font);
+    _menu_prompt.setPosition((sf::Vector2f){WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4});
+    _menu_prompt.setString("\t\tArcade :");
+    _menu_prompt.setCharacterSize(40);
+    _menu_prompt.setFillColor(sf::Color::White);
+    _menu_prompt_choice_one.setFont(_score_font);
+    _menu_prompt_choice_one.setPosition((sf::Vector2f){_menu_prompt.getPosition().x, _menu_prompt.getPosition().y + 100});
+    _menu_prompt_choice_one.setString("Nibbler\n\tO");
+    _menu_prompt_choice_one.setCharacterSize(30);
+    _menu_prompt_choice_one.setFillColor(sf::Color::White);
+    _menu_prompt_choice_two.setFont(_score_font);
+    _menu_prompt_choice_two.setPosition((sf::Vector2f){_menu_prompt_choice_one.getPosition().x + 170, _menu_prompt_choice_one.getPosition().y});
+    _menu_prompt_choice_two.setString("Pacman\n\tP");
+    _menu_prompt_choice_two.setCharacterSize(30);
+    _menu_prompt_choice_two.setFillColor(sf::Color::White);
 }
 
 void LibSFML::DrawRectangle(char id, sf::Vector2f r_pos)
@@ -125,6 +151,14 @@ void LibSFML::DrawScore(int score)
     _window.draw(_score_label);
 }
 
+void LibSFML::DisplayMenu()
+{
+    _window.draw(_menu_prompt);
+    _window.draw(_menu_prompt_choice_one);
+    _window.draw(_menu_prompt_choice_two);
+    _window.display();
+}
+
 void LibSFML::Display()
 {
     while (_clock.getElapsedTime().asMilliseconds() <= 70.0) {
@@ -150,6 +184,10 @@ evtKey LibSFML::GetEventKey()
                     return (evtKey::PREV_GAME);
                 case sf::Keyboard::P:
                     return (evtKey::NEXT_GAME);
+                case sf::Keyboard::R:
+                    return (evtKey::RESET_GAME);
+                case sf::Keyboard::Enter:
+                    return (evtKey::GO_MENU);
                 default:
                     return (evtKey::NONE);
             }
