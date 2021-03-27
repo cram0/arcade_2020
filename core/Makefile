@@ -15,12 +15,11 @@ CXXFLAGS    +=      -Wall
 CXXFLAGS    +=      -Wextra
 CXXFLAGS    +=      -Wno-unused-parameter
 CXXFLAGS    +=      -I./include -I../libs/vendor
-CXXFLAGS    +=      -ldl
 
 all         :       $(NAME)
 
 $(NAME)     :       $(OBJ)
-					g++ $(CXXFLAGS) -o $(NAME) $(OBJ) -g -O0
+					g++ $(CXXFLAGS) -o $(NAME) $(OBJ) -g -O0 -ldl
 
 clean       :
 					find . -name "*.o" -type f -delete
