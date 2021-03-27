@@ -72,7 +72,7 @@ void Nibbler::RandomizeApplePos()
 
 void Nibbler::UpdateNibblerDirection(evtKey key)
 {
-    if (key == evtKey::NONE)
+    if (key == evtKey::NONE || key > 4)
         return;
     if (_direction == direction::RIGHT && key != evtKey::LEFT)
         _direction = (direction)key;

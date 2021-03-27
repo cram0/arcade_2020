@@ -127,7 +127,7 @@ void LibSFML::DrawScore(int score)
 
 void LibSFML::Display()
 {
-    while (_clock.getElapsedTime().asMilliseconds() <= 50.0) {
+    while (_clock.getElapsedTime().asMilliseconds() <= 70.0) {
         _window.display();
     }
     _clock.restart();
@@ -137,26 +137,22 @@ evtKey LibSFML::GetEventKey()
 {
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::KeyPressed) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-                return(evtKey::UP);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-                return(evtKey::DOWN);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-                return(evtKey::LEFT);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-                return(evtKey::RIGHT);
-            // switch (_event.key.code) {
-            //     case sf::Keyboard::Up:
-            //         return (evtKey::UP);
-            //     case sf::Keyboard::Down:
-            //         return (evtKey::DOWN);
-            //     case sf::Keyboard::Left:
-            //         return (evtKey::LEFT);
-            //     case sf::Keyboard::Right:
-            //         return (evtKey::RIGHT);
-            //     default:
-            //         break;
-            // }
+            switch (_event.key.code) {
+                case sf::Keyboard::Up:
+                    return (evtKey::UP);
+                case sf::Keyboard::Down:
+                    return (evtKey::DOWN);
+                case sf::Keyboard::Left:
+                    return (evtKey::LEFT);
+                case sf::Keyboard::Right:
+                    return (evtKey::RIGHT);
+                case sf::Keyboard::O:
+                    return (evtKey::PREV_GAME);
+                case sf::Keyboard::P:
+                    return (evtKey::NEXT_GAME);
+                default:
+                    return (evtKey::NONE);
+            }
         }
     }
     return (evtKey::NONE);

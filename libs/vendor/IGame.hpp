@@ -13,12 +13,19 @@
 
 #include "evtVar.hpp"
 
+typedef enum {
+    NO_GAME,
+    NIBBLER,
+    PACMAN
+} game_e;
+
 class IGame {
     public:
         virtual ~IGame() = default;
 
         virtual std::vector<std::string> GetMap() = 0;
         virtual int GetScore() = 0;
+        // virtual bool IsGameOver() = 0;
         virtual void Update(evtKey key) = 0;
 
     protected:

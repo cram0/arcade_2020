@@ -38,7 +38,6 @@ class LibSFML : public IGraphic {
         void Close();
         evtKey GetEventKey();
 
-
     protected:
     private:
         sf::RenderWindow _window;

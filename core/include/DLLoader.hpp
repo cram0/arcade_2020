@@ -23,10 +23,14 @@ class DLLoader {
         IGraphic *GetGraphicLibrary(std::string const &path);
         IGame *GetGameLibrary(std::string const &path);
 
+        IGame *SwitchGame(game_e current_game);
+
     protected:
     private:
         std::map<std::string, std::string> _graphic_libs_map;
         std::map<std::string, std::string> _game_libs_map;
+        void *_handle_game;
+        void *_handle_graphic;
 };
 
 #endif /* !DLLOADER_HPP_ */

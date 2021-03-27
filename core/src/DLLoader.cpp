@@ -24,21 +24,33 @@ DLLoader::~DLLoader()
 
 }
 
+IGame *DLLoader::SwitchGame(game_e current_game)
+{
+    if (current_game == game_e::NIBBLER) {
+        
+        return (GetGameLibrary("libs/games/pacman/arcade_pacman.so"));
+    }
+    else {
+
+        return (GetGameLibrary("libs/games/nibbler/arcade_nibbler.so"));
+    }
+}
+
 IGame *DLLoader::GetGameLibrary(std::string const &path)
 {
     char *error;
     IGame *(*tmp)();
 
-    void *handle = dlopen(path.c_str(), RTLD_LAZY);
+    _handle_game = dlopen(path.c_str(), RTLD_LAZY);
 
-    if (!handle) {
+    if (!_handle_game) {
         fprintf(stderr, "%s\n", dlerror());
         exit(EXIT_FAILURE);
     }
 
     for (const auto &p : _game_libs_map) {
         if (path.find(p.first) != std::string::npos) {
-            *(void **)(&tmp) = dlsym(handle, p.second.c_str());
+            *(void **)(&tmp) = dlsym(_handle_game, p.second.c_str());
 
             if ((error = dlerror()) != NULL)  {
                 fprintf(stderr, "%s\n", error);
@@ -54,16 +66,16 @@ IGraphic *DLLoader::GetGraphicLibrary(std::string const &path)
     char *error;
     IGraphic *(*tmp)();
 
-    void *handle = dlopen(path.c_str(), RTLD_LAZY);
+    _handle_graphic = dlopen(path.c_str(), RTLD_LAZY);
 
-    if (!handle) {
+    if (!_handle_graphic) {
         fprintf(stderr, "%s\n", dlerror());
         exit(EXIT_FAILURE);
     }
 
     for (const auto &p : _graphic_libs_map) {
         if (path.find(p.first) != std::string::npos) {
-            *(void **)(&tmp) = dlsym(handle, p.second.c_str());
+            *(void **)(&tmp) = dlsym(_handle_graphic, p.second.c_str());
 
             if ((error = dlerror()) != NULL)  {
                 fprintf(stderr, "%s\n", error);

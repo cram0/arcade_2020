@@ -15,23 +15,28 @@
 #include "DLLoader.hpp"
 
 class Core {
+
     public:
         Core();
         ~Core();
 
         void Run();
         bool IsRunning();
+        void ReadCoreEvent(evtKey evt);
 
         IGame *GetGame();
         IGraphic *GetGraphic();
         DLLoader GetDLLoader();
+        game_e GetCurrentGame();
 
         void SetGame(IGame *game);
         void SetGraphic(IGraphic *graphlib);
+        void ChangeCurrentGame();
 
     protected:
     private:
         bool _running = 1;
+        game_e _current_game = NIBBLER;
 
         IGame *_game;
         IGraphic *_graphlib;
