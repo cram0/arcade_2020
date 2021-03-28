@@ -27,14 +27,14 @@ DLLoader::~DLLoader()
 IGame *DLLoader::SwitchGame(evtKey evt, game_e game_name)
 {
     if (evt == evtKey::NEXT_GAME)
-        return (GetGameLibrary("libs/games/pacman/arcade_pacman.so"));
+        return (GetGameLibrary("libs/arcade_pacman.so"));
     if (evt == evtKey::PREV_GAME)
-        return (GetGameLibrary("libs/games/nibbler/arcade_nibbler.so"));
+        return (GetGameLibrary("libs/arcade_nibbler.so"));
     if (evt == evtKey::RESET_GAME) {
         if (game_name == game_e::NIBBLER)
-            return (GetGameLibrary("libs/games/nibbler/arcade_nibbler.so"));
+            return (GetGameLibrary("libs/arcade_nibbler.so"));
         if (game_name == game_e::PACMAN)
-            return (GetGameLibrary("libs/games/pacman/arcade_pacman.so"));
+            return (GetGameLibrary("libs/arcade_pacman.so"));
     }
 }
 
@@ -67,7 +67,6 @@ IGraphic *DLLoader::GetGraphicLibrary(std::string const &path)
 {
     char *error;
     IGraphic *(*tmp)();
-
     _handle_graphic = dlopen(path.c_str(), RTLD_LAZY);
 
     if (!_handle_graphic) {

@@ -7,6 +7,9 @@
 
 #include "Core.hpp"
 
+// Je lègue ce projet à Eloise si je meurs entre temps d'un grain de poivre
+// mal ingéré
+
 Core::Core()
 {
 
@@ -19,7 +22,7 @@ Core::~Core()
 
 void Core::Run()
 {
-    IGraphic *graph = GetDLLoader().GetGraphicLibrary("libs/graphics/sfml/arcade_sfml.so");
+    IGraphic *graph = GetDLLoader().GetGraphicLibrary("libs/arcade_ncurses.so");
     SetGraphic(graph);
 
     while (IsRunning()) {
@@ -57,20 +60,27 @@ void Core::ChangeCurrentGame(evtKey evt)
     if (_current_game == NO_GAME) {
         if (evt == evtKey::GO_MENU)
             return;
-        if (evt == evtKey::PREV_GAME)
+        if (evt == evtKey::PREV_GAME) {
+            _game_before_pause = _current_game;
             _current_game = game_e::NIBBLER;
-        if (evt == evtKey::NEXT_GAME)
+        }
+        if (evt == evtKey::NEXT_GAME) {
+            _game_before_pause = _current_game;
             _current_game = game_e::PACMAN;
+        }
     }
-    if (evt == evtKey::PREV_GAME)
+    if (evt == evtKey::PREV_GAME) {
         _current_game = game_e::NIBBLER;
-    if (evt == evtKey::NEXT_GAME)
+    }
+    if (evt == evtKey::NEXT_GAME) {
         _current_game = game_e::PACMAN;
+    }
     if (evt == evtKey::GO_MENU) {
         _game_before_pause = _current_game;
         _current_game = game_e::NO_GAME;
     }
     if (evt == evtKey::CONFIRM_NAME && _current_game == game_e::GAME_OVER) {
+        _game_before_pause = _current_game;
         _current_game = game_e::NO_GAME;
     }
 }
@@ -81,7 +91,7 @@ void Core::ReadCoreEvent(evtKey evt)
         if (evt == evtKey::GO_MENU) {
             ChangeCurrentGame(evt);
         }
-        if (evt == evtKey::RESET_GAME) {
+        if (evt == evtKey::RESET_GAME && _current_game != game_e::NO_GAME) {
             SetGame(GetDLLoader().SwitchGame(evt, _current_game));
         }
         if (evt == evtKey::NEXT_GAME) {

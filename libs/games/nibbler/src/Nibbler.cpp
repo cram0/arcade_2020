@@ -92,19 +92,28 @@ void Nibbler::UpdateNibblerDirection(evtKey key)
 void Nibbler::UpdateNibblerHeadPos(evtKey key)
 {
     if (_direction == direction::UP){
-        _nibbler[0].y -= 1;
+        if (_nibbler[0].y > 0)
+            _nibbler[0].y -= 1;
+        else
+            _is_game_over = true;
     }
     if (_direction == direction::DOWN) {
-        _nibbler[0].y += 1;
+        if (_nibbler[0].y < GRID_SIZE_Y - 1)
+            _nibbler[0].y += 1;
+        else
+            _is_game_over = true;
     }
     if (_direction == direction::LEFT) {
-        _nibbler[0].x -= 1;
+        if (_nibbler[0].x > 0)
+            _nibbler[0].x -= 1;
+        else
+            _is_game_over = true;
     }
     if (_direction == direction::RIGHT) {
         if (_nibbler[0].x < GRID_SIZE_X - 1)
             _nibbler[0].x += 1;
         else
-            exit(1);
+            _is_game_over = true;
     }
 }
 
@@ -127,7 +136,7 @@ void Nibbler::CheckHeadCollision(std::vector<nibbler_t> old_nibbler)
 {
     for (auto n : old_nibbler) {
         if (_nibbler[0].x == n.x && _nibbler[0].y == n.y) {
-            exit(1);
+            _is_game_over = true;
         }
     }
 }

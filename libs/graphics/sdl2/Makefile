@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME           =        arcade_sdl2.so
+NAME           =        ../../arcade_sdl2.so
 
 SRC            =        $(shell find . -name '*.cpp')
 
@@ -15,7 +15,7 @@ CXXFLAGS       +=       -Wall
 CXXFLAGS       +=       -Wextra
 CXXFLAGS       +=       -Wno-unused-parameter
 CXXFLAGS       +=       -shared -fPIC
-CXXFLAGS       +=       -I./include
+CXXFLAGS       +=       -I./include -I../../vendor
 
 all            :        $(NAME)
 

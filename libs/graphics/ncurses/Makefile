@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME           =        arcade_ncurses.so
+NAME           =        ../../arcade_ncurses.so
 
 SRC            =        $(shell find . -name '*.cpp')
 
@@ -15,12 +15,12 @@ CXXFLAGS       +=       -Wall
 CXXFLAGS       +=       -Wextra
 CXXFLAGS       +=       -Wno-unused-parameter
 CXXFLAGS       +=       -shared -fPIC
-CXXFLAGS       +=       -I./include
+CXXFLAGS       +=       -I./include -I../../vendor
 
 all            :        $(NAME)
 
 $(NAME)        :        $(OBJ)
-						g++ $(CXXFLAGS) -o $(NAME) $(OBJ)
+						g++ $(CXXFLAGS) -o $(NAME) $(OBJ) -lncurses
 
 clean          :
 						find . -name "*.o" -type f -delete

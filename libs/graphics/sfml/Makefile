@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME           =        arcade_sfml.so
+NAME           =        ../../arcade_sfml.so
 
 SRC            =        $(shell find . -name '*.cpp')
 

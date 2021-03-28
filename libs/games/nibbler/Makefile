@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME           =        arcade_nibbler.so
+NAME           =        ../../arcade_nibbler.so
 
 SRC            =        $(shell find . -name '*.cpp')
 

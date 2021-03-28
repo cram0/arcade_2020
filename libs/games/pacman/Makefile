@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME           =        arcade_pacman.so
+NAME           =        ../../arcade_pacman.so
 
 SRC            =        $(shell find . -name '*.cpp')
 
