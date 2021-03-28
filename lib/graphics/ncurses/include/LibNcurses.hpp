@@ -41,6 +41,8 @@ class LibNcurses : public IGraphic {
 
         void Initialize();
         void InitColors();
+        void InitGameOver();
+
 
         void DrawId(char const id,  int y, int x);
         void DrawMap(std::vector<std::string> map);
@@ -56,6 +58,9 @@ class LibNcurses : public IGraphic {
     protected:
     private:
         clock_t _start_clock;
+
+        std::string _game_over_prompt;
+        std::string _game_over_score_label;
         std::string _game_over_score_value;
 
         bool _is_game_over = false;

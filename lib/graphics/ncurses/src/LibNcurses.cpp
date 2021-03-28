@@ -28,7 +28,13 @@ void LibNcurses::Initialize()
     curs_set(0);
     _start_clock = clock();
     InitColors();
+    InitGameOver();
+}
 
+void LibNcurses::InitGameOver()
+{
+    _game_over_prompt = "GAME OVER";
+    _game_over_score_label = "SCORE :";
 }
 
 void LibNcurses::InitColors()
@@ -153,6 +159,8 @@ void LibNcurses::DrawScore(int score)
 
 void LibNcurses::Display()
 {
+    if (_is_game_over)
+        _is_game_over = false;
     clock_t _end_clock = clock();
     while ((double)(_end_clock - _start_clock) / CLOCKS_PER_SEC <= 0.1) {
         _end_clock = clock();
@@ -163,7 +171,6 @@ void LibNcurses::Display()
 
 void LibNcurses::DisplayMenu()
 {
-    
     refresh();
 }
 
@@ -171,9 +178,10 @@ void LibNcurses::DisplayGameOver()
 {
     if (!_is_game_over)
         _is_game_over = true;
-    mvprintw(0, 0, "GAME OVER");
-    mvprintw(1, 0, "SCORE :");
-    mvprintw(1, 9, _game_over_score_value.c_str());
+
+    mvprintw(1, GRID_SIZE_X / 2 - _game_over_prompt.length() / 2, _game_over_prompt.c_str());
+    mvprintw(2, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2, _game_over_score_label.c_str());
+    mvprintw(2, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2 + 8, _game_over_score_value.c_str());
     refresh();
 }
 
@@ -217,7 +225,7 @@ evtKey LibNcurses::GetEventKey()
             return (evtKey::NEXT_GAME);
         case 'r':
             return (evtKey::RESET_GAME);
-        case 127:
+        case KEY_DL:
             return (evtKey::GO_MENU);
         case KEY_ENTER:
             return (evtKey::CONFIRM_NAME);
