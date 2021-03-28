@@ -37,7 +37,7 @@ class Core {
     protected:
     private:
         bool _running = 1;
-        game_e _current_game = NO_GAME;
+        game_e _current_game = NIBBLER;
         game_e _game_before_pause = NO_GAME;
 
         IGame *_game;

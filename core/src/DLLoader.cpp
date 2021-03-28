@@ -27,14 +27,14 @@ DLLoader::~DLLoader()
 IGame *DLLoader::SwitchGame(evtKey evt, game_e game_name)
 {
     if (evt == evtKey::NEXT_GAME)
-        return (GetGameLibrary("libs/arcade_pacman.so"));
+        return (GetGameLibrary("lib/arcade_pacman.so"));
     if (evt == evtKey::PREV_GAME)
-        return (GetGameLibrary("libs/arcade_nibbler.so"));
+        return (GetGameLibrary("lib/arcade_nibbler.so"));
     if (evt == evtKey::RESET_GAME) {
         if (game_name == game_e::NIBBLER)
-            return (GetGameLibrary("libs/arcade_nibbler.so"));
+            return (GetGameLibrary("lib/arcade_nibbler.so"));
         if (game_name == game_e::PACMAN)
-            return (GetGameLibrary("libs/arcade_pacman.so"));
+            return (GetGameLibrary("lib/arcade_pacman.so"));
     }
 }
 

@@ -14,7 +14,7 @@ OBJ         =       $(SRC:.cpp=.o)
 CXXFLAGS    +=      -Wall
 CXXFLAGS    +=      -Wextra
 CXXFLAGS    +=      -Wno-unused-parameter
-CXXFLAGS    +=      -I./include -I../libs/vendor
+CXXFLAGS    +=      -I./include -I../lib/vendor
 
 all         :       $(NAME)
 

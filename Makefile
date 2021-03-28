@@ -11,22 +11,22 @@ CORE                =    $(realpath ./core/)
 
 ## GAMES ##
 
-NIBBLER             =    $(realpath ./libs/games/nibbler/)
+NIBBLER             =    $(realpath ./lib/games/nibbler/)
 
-PACMAN              =    $(realpath ./libs/games/pacman/)
+PACMAN              =    $(realpath ./lib/games/pacman/)
 
 ## GRAPHIC ##
 
-NCURSES             =    $(realpath ./libs/graphics/ncurses/)
+NCURSES             =    $(realpath ./lib/graphics/ncurses/)
 
-SDL2                =    $(realpath ./libs/graphics/sdl2/)
+SDL2                =    $(realpath ./lib/graphics/sdl2/)
 
-SFML                =    $(realpath ./libs/graphics/sfml/)
+SFML                =    $(realpath ./lib/graphics/sfml/)
 
 
-all:				libs
+all:				lib
 
-libs:
+lib:
 					$(MAKE) -C $(CORE)
 					$(MAKE) -C $(NIBBLER)
 					$(MAKE) -C $(PACMAN)
@@ -64,4 +64,4 @@ fclean:
 
 re:                 fclean all
 
-.PHONY:             all libs core games graphicals clean fclean re
+.PHONY:             all lib core games graphicals clean fclean re

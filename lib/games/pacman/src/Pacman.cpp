@@ -33,7 +33,7 @@ void Pacman::InitGhosts()
 
 void Pacman::InitMap()
 {
-    std::ifstream file("libs/games/pacman/map");
+    std::ifstream file("lib/games/pacman/map");
     std::string row;
     if (file.is_open()) {
         while (getline(file, row)) {

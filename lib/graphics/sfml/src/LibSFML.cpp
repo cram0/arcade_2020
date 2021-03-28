@@ -30,7 +30,7 @@ void LibSFML::Initialize()
 
 void LibSFML::InitFont()
 {
-    _font.loadFromFile("libs/graphics/font/OpenSans-Regular.ttf");
+    _font.loadFromFile("lib/graphics/font/OpenSans-Regular.ttf");
 }
 
 void LibSFML::InitGameOverPrompt()
