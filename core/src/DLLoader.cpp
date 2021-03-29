@@ -112,3 +112,19 @@ IGraphic *DLLoader::GetGraphicLibrary(std::string const &path)
     }
     return ((* tmp)());
 }
+
+void DLLoader::CloseHandleGame()
+{
+    dlclose(_handle_game);
+}
+
+void DLLoader::CloseHandleGraphic()
+{
+    dlclose(_handle_graphic);
+}
+
+void DLLoader::CloseHandles()
+{
+    CloseHandleGame();
+    CloseHandleGraphic();
+}

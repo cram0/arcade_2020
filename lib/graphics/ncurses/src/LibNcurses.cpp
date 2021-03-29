@@ -233,6 +233,8 @@ evtKey LibNcurses::GetEventKey()
             return (evtKey::PREV_GRAPH);
         case 'n':
             return (evtKey::NEXT_GRAPH);
+        case 27:
+            return (evtKey::QUIT_GAME);
         default:
             return (evtKey::NONE);
     }

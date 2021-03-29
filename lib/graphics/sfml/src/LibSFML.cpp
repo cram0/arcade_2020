@@ -251,9 +251,14 @@ evtKey LibSFML::GetEventKey()
                     return (evtKey::PREV_GRAPH);
                 case sf::Keyboard::N:
                     return (evtKey::NEXT_GRAPH);
+                case sf::Keyboard::Escape:
+                    return (evtKey::QUIT_GAME);
                 default:
                     return (evtKey::NONE);
             }
+        }
+        if (_event.type == sf::Event::Closed) {
+            return (evtKey::QUIT_GAME);
         }
     }
     return (evtKey::NONE);

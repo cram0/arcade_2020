@@ -47,6 +47,8 @@ void Core::Run()
             GetGraphic()->Display();
         }
     }
+
+    GetDLLoader().CloseHandles();
 }
 
 void Core::CheckIfGameOver(bool state)
@@ -146,6 +148,10 @@ void Core::ReadCoreEvent(evtKey evt)
         if (_current_game == game_e::GAME_OVER) {
             ChangeCurrentGame(evt);
         }
+    }
+    if (evt == evtKey::QUIT_GAME) {
+        GetGraphic()->Close();
+        _running = false;
     }
 }
 

@@ -282,6 +282,7 @@ void LibSDL2::Destroy()
 {
     SDL_DestroyRenderer(_renderer);
     SDL_DestroyWindow(_window);
+    SDL_Quit();
 }
 
 void LibSDL2::Clear()
@@ -323,13 +324,13 @@ evtKey LibSDL2::GetEventKey()
                         return (evtKey::PREV_GRAPH);
                     case SDLK_n:
                         return (evtKey::NEXT_GRAPH);
+                    case SDLK_ESCAPE:
+                        return (evtKey::QUIT_GAME);
                     default:
                         return (evtKey::NONE);
                 }
             case SDL_QUIT:
-                SDL_DestroyRenderer(_renderer);
-                SDL_DestroyWindow(_window);
-                SDL_Quit();
+                return (evtKey::QUIT_GAME);
         }
     }
     return (evtKey::NONE);

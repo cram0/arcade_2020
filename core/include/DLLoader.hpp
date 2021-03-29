@@ -26,6 +26,10 @@ class DLLoader {
         IGraphic *SwitchGraphic(evtKey evt, graph_e graph_name);
         IGame *SwitchGame(evtKey evt, game_e game_name);
 
+        void CloseHandleGame();
+        void CloseHandleGraphic();
+        void CloseHandles();
+
     protected:
     private:
         std::map<std::string, std::string> _graphic_libs_map;
