@@ -139,8 +139,6 @@ void LibSFML::DrawCircle(char id, sf::Vector2f r_pos)
 
 void LibSFML::DrawShapeFromID(char id, sf::Vector2f r_pos)
 {
-    sf::CircleShape circ;
-    circ.setRadius(0.5);
     if ((id >= '0' && id <= '9') || id == '-')
         DrawRectangle(id, r_pos);
     else

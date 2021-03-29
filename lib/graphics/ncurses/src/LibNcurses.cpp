@@ -20,8 +20,8 @@ LibNcurses::~LibNcurses()
 void LibNcurses::Initialize()
 {
     initscr();
-    WINDOW *game_window = subwin(stdscr, GRID_SIZE_Y + 2, GRID_SIZE_X + 2, 0, 0);
-    box(game_window, ACS_VLINE, ACS_HLINE);
+    _game_window = subwin(stdscr, GRID_SIZE_Y + 2, GRID_SIZE_X + 2, 1, 1);
+    box(_game_window, ACS_VLINE, ACS_HLINE);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     noecho();
@@ -225,7 +225,7 @@ evtKey LibNcurses::GetEventKey()
             return (evtKey::NEXT_GAME);
         case 'r':
             return (evtKey::RESET_GAME);
-        case KEY_DL:
+        case 127:
             return (evtKey::GO_MENU);
         case KEY_ENTER:
             return (evtKey::CONFIRM_NAME);

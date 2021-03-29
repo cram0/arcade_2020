@@ -22,9 +22,7 @@ Core::~Core()
 
 void Core::Run()
 {
-    IGame *game = GetDLLoader().GetGameLibrary("lib/arcade_nibbler.so");
-    IGraphic *graph = GetDLLoader().GetGraphicLibrary("lib/arcade_ncurses.so");
-    SetGame(game);
+    IGraphic *graph = GetDLLoader().GetGraphicLibrary("lib/arcade_sdl2.so");
     SetGraphic(graph);
 
     while (IsRunning()) {

@@ -12,7 +12,7 @@
 DLLoader::DLLoader()
 {
     _graphic_libs_map["arcade_sfml.so"] = "getLibSFML";
-    _graphic_libs_map["arcade_sdl2.so"] = "getLibSDL";
+    _graphic_libs_map["arcade_sdl2.so"] = "getLibSDL2";
     _graphic_libs_map["arcade_ncurses.so"] = "getLibNcurses";
 
     _game_libs_map["arcade_nibbler.so"] = "getLibNibbler";

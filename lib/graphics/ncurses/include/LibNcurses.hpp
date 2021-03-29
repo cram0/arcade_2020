@@ -58,7 +58,7 @@ class LibNcurses : public IGraphic {
     protected:
     private:
         clock_t _start_clock;
-
+        WINDOW *_game_window;
         std::string _game_over_prompt;
         std::string _game_over_score_label;
         std::string _game_over_score_value;
