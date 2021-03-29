@@ -33,11 +33,13 @@ class Core {
         void SetGame(IGame *game);
         void SetGraphic(IGraphic *graphlib);
         void ChangeCurrentGame(evtKey evt);
+        void ChangeCurrentGraphic(evtKey evt);
 
     protected:
     private:
         bool _running = 1;
         game_e _current_game = NO_GAME;
+        graph_e _current_graphic = SFML;
         game_e _game_before_pause = NO_GAME;
 
         IGame *_game;

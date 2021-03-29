@@ -24,6 +24,32 @@ DLLoader::~DLLoader()
 
 }
 
+IGraphic *DLLoader::SwitchGraphic(evtKey evt, graph_e graph_name)
+{
+    if (evt == PREV_GRAPH) {
+        if ((int)graph_name == 0) {
+            return (GetGraphicLibrary("lib/arcade_ncurses.so"));
+        }
+        else if ((int)graph_name == 1) {
+            return (GetGraphicLibrary("lib/arcade_sfml.so"));
+        }
+        else {
+            return (GetGraphicLibrary("lib/arcade_sdl2.so"));
+        }
+    }
+    if (evt == NEXT_GRAPH) {
+        if ((int)graph_name == 0) {
+            return (GetGraphicLibrary("lib/arcade_sdl2.so"));
+        }
+        else if ((int)graph_name == 1) {
+            return (GetGraphicLibrary("lib/arcade_ncurses.so"));
+        }
+        else {
+            return (GetGraphicLibrary("lib/arcade_sfml.so"));
+        }
+    }
+}
+
 IGame *DLLoader::SwitchGame(evtKey evt, game_e game_name)
 {
     if (evt == evtKey::NEXT_GAME)

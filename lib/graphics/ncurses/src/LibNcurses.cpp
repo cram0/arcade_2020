@@ -187,7 +187,7 @@ void LibNcurses::DisplayGameOver()
 
 void LibNcurses::Destroy()
 {
-
+    endwin();
 }
 
 void LibNcurses::Clear()
@@ -199,7 +199,7 @@ void LibNcurses::Clear()
 
 void LibNcurses::Close()
 {
-    endwin();
+    Destroy();
 }
 
 evtKey LibNcurses::GetEventKey()
@@ -229,6 +229,10 @@ evtKey LibNcurses::GetEventKey()
             return (evtKey::GO_MENU);
         case KEY_ENTER:
             return (evtKey::CONFIRM_NAME);
+        case 'b':
+            return (evtKey::PREV_GRAPH);
+        case 'n':
+            return (evtKey::NEXT_GRAPH);
         default:
             return (evtKey::NONE);
     }

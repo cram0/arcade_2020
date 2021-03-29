@@ -13,6 +13,12 @@
 #include <vector>
 #include <string>
 
+typedef enum {
+    SFML,
+    SDL2,
+    NCURSES
+} graph_e;
+
 class IGraphic {
     public:
         virtual ~IGraphic() = default;

@@ -55,6 +55,25 @@ void Core::CheckIfGameOver(bool state)
         _current_game = GAME_OVER;
 }
 
+void Core::ChangeCurrentGraphic(evtKey evt)
+{
+    int tmp = (int)_current_graphic;
+    if (evt == evtKey::PREV_GRAPH) {
+        tmp -= 1;
+        if (tmp < 0)
+            _current_graphic = (graph_e)2;
+        else
+            _current_graphic = (graph_e)tmp;
+    }
+    if (evt == evtKey::NEXT_GRAPH) {
+        tmp += 1;
+        if (tmp > 2)
+            _current_graphic = (graph_e)0;
+        else
+            _current_graphic = (graph_e)tmp;
+    }
+}
+
 void Core::ChangeCurrentGame(evtKey evt)
 {
     if (_current_game == NO_GAME) {
@@ -111,6 +130,16 @@ void Core::ReadCoreEvent(evtKey evt)
                 ChangeCurrentGame(evt);
                 SetGame(GetDLLoader().SwitchGame(evt, _current_game));
             }
+        }
+        if (evt == evtKey::PREV_GRAPH) {
+            ChangeCurrentGraphic(evt);
+            GetGraphic()->Close();
+            SetGraphic(GetDLLoader().SwitchGraphic(evt, _current_graphic));
+        }
+        if (evt == evtKey::NEXT_GRAPH) {
+            ChangeCurrentGraphic(evt);
+            GetGraphic()->Close();
+            SetGraphic(GetDLLoader().SwitchGraphic(evt, _current_graphic));
         }
     }
     if (evt == evtKey::CONFIRM_NAME) {

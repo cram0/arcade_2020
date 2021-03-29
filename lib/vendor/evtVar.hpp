@@ -18,7 +18,9 @@ typedef enum {
     NEXT_GAME,
     RESET_GAME,
     GO_MENU,
-    CONFIRM_NAME
+    CONFIRM_NAME,
+    PREV_GRAPH,
+    NEXT_GRAPH
 } evtKey;
 
 #endif /* !EVTVAR_HPP_ */

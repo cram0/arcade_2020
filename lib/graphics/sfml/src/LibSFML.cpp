@@ -14,7 +14,7 @@ LibSFML::LibSFML()
 
 LibSFML::~LibSFML()
 {
-
+    Destroy();
 }
 
 void LibSFML::Initialize()
@@ -247,6 +247,10 @@ evtKey LibSFML::GetEventKey()
                     return (evtKey::GO_MENU);
                 case sf::Keyboard::Enter:
                     return (evtKey::CONFIRM_NAME);
+                case sf::Keyboard::B:
+                    return (evtKey::PREV_GRAPH);
+                case sf::Keyboard::N:
+                    return (evtKey::NEXT_GRAPH);
                 default:
                     return (evtKey::NONE);
             }
@@ -257,12 +261,12 @@ evtKey LibSFML::GetEventKey()
 
 void LibSFML::Destroy()
 {
-
+    _window.close();
 }
 
 void LibSFML::Close()
 {
-    _window.close();
+    Destroy();
 }
 
 void LibSFML::Clear()

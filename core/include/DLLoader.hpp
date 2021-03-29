@@ -23,6 +23,7 @@ class DLLoader {
         IGraphic *GetGraphicLibrary(std::string const &path);
         IGame *GetGameLibrary(std::string const &path);
 
+        IGraphic *SwitchGraphic(evtKey evt, graph_e graph_name);
         IGame *SwitchGame(evtKey evt, game_e game_name);
 
     protected:

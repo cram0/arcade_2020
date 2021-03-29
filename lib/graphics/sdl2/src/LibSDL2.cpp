@@ -14,7 +14,7 @@ LibSDL2::LibSDL2()
 
 LibSDL2::~LibSDL2()
 {
-
+    Destroy();
 }
 
 void LibSDL2::Initialize()
@@ -280,7 +280,8 @@ void LibSDL2::DisplayGameOver()
 
 void LibSDL2::Destroy()
 {
-
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
 }
 
 void LibSDL2::Clear()
@@ -291,7 +292,7 @@ void LibSDL2::Clear()
 
 void LibSDL2::Close()
 {
-
+    Destroy();
 }
 
 evtKey LibSDL2::GetEventKey()
@@ -318,6 +319,10 @@ evtKey LibSDL2::GetEventKey()
                         return (evtKey::GO_MENU);
                     case SDLK_RETURN:
                         return (evtKey::CONFIRM_NAME);
+                    case SDLK_b:
+                        return (evtKey::PREV_GRAPH);
+                    case SDLK_n:
+                        return (evtKey::NEXT_GRAPH);
                     default:
                         return (evtKey::NONE);
                 }
