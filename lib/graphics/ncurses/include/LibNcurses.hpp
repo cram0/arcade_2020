@@ -35,15 +35,23 @@
 #define SCARED 13
 
 class LibNcurses : public IGraphic {
+
+    typedef enum {
+        MENU,
+        GAME_OVER,
+        GAME
+    } scene_e;
+
     public:
         LibNcurses();
         ~LibNcurses();
 
         void Initialize();
         void InitColors();
+        void InitMenu();
         void InitGameOver();
 
-
+        void DrawBox();
         void DrawId(char const id,  int y, int x);
         void DrawMap(std::vector<std::string> map);
         void DrawScore(int score);
@@ -59,11 +67,17 @@ class LibNcurses : public IGraphic {
     private:
         clock_t _start_clock;
         WINDOW *_game_window;
+        scene_e _current_scene = MENU;
+
+        std::string _menu_prompt;
+        std::string _menu_prompt_games;
+        std::string _menu_prompt_keys;
+
         std::string _game_over_prompt;
         std::string _game_over_score_label;
         std::string _game_over_score_value;
 
-        bool _is_game_over = false;
+
 };
 
 extern "C" LibNcurses *getLibNcurses() {

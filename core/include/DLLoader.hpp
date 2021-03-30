@@ -20,6 +20,9 @@ class DLLoader {
         DLLoader();
         ~DLLoader();
 
+        std::map<std::string, std::string> GetGraphicLibsMap();
+        std::map<std::string, std::string> GetGameLibsMap();
+
         IGraphic *GetGraphicLibrary(std::string const &path);
         IGame *GetGameLibrary(std::string const &path);
 

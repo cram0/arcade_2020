@@ -20,11 +20,51 @@ Core::~Core()
 
 }
 
+void Core::PrintUsage()
+{
+    std::cout << "Usage: ./arcade [lib_name.so]" << std::endl;
+}
+
+void Core::CheckIfLibIsGraphical(std::string libName)
+{
+    for (auto const &lm : GetDLLoader().GetGraphicLibsMap()) {
+        if (lm.first.find(libName) != std::string::npos) {
+            return;
+        }
+    }
+    throw AError(std::cerr, "./arcade: file \"" + libName + "\" is not a proper graphical library file.");
+}
+
+void Core::CheckIfLibExists(std::string libName)
+{
+    std::ifstream file = std::ifstream(libName.c_str());
+    if (!file.good())
+        throw AError(std::cerr, "./arcade: file \"" + libName + "\" doesn't exist.");
+}
+
+int Core::CheckArgs(int argc, char *argv[])
+{
+    if (argc == 1){
+        throw AError(std::cerr, "./arcade: missing graphic library name\nTry '-h' for more information.");
+    }
+    if (argc == 2) {
+        std::string f_arg = std::string(argv[1]);
+        if (f_arg.compare("-h") == 0) {
+            PrintUsage();
+            std::exit(0);
+        }
+        else {
+            CheckIfLibExists(f_arg);
+            CheckIfLibIsGraphical(f_arg);
+        }
+    }
+    else {
+        throw AError(std::cerr, "./arcade: too many arguments.\nTry '-h' for more information.");
+    }
+}
+
 void Core::Run()
 {
-    IGraphic *graph = GetDLLoader().GetGraphicLibrary("lib/arcade_sdl2.so");
-    SetGraphic(graph);
-
     while (IsRunning()) {
         GetGraphic()->Clear();
         if (GetCurrentGame() == NO_GAME) {

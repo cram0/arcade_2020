@@ -20,15 +20,23 @@ LibNcurses::~LibNcurses()
 void LibNcurses::Initialize()
 {
     initscr();
-    _game_window = subwin(stdscr, GRID_SIZE_Y + 2, GRID_SIZE_X + 2, 1, 1);
+    _game_window = subwin(stdscr, GRID_SIZE_Y + 2, GRID_SIZE_X + 2, 0, 0);
     box(_game_window, ACS_VLINE, ACS_HLINE);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     noecho();
     curs_set(0);
     _start_clock = clock();
+    InitMenu();
     InitColors();
     InitGameOver();
+}
+
+void LibNcurses::InitMenu()
+{
+    _menu_prompt = "Arcade";
+    _menu_prompt_games = "Nibbler\t   Pacman ";
+    _menu_prompt_keys = "O\t   P";
 }
 
 void LibNcurses::InitGameOver()
@@ -103,28 +111,28 @@ void LibNcurses::DrawId(char const id, int y, int x)
             break;
         case 'p':
             attron(COLOR_PAIR(PINKY));
-            mvaddch(y, x, id);
+            mvaddch(y, x, 'O');
             attroff(COLOR_PAIR(PINKY));
             break;
         case 'b':
             attron(COLOR_PAIR(BLINKY));
-            mvaddch(y, x, id);
+            mvaddch(y, x, 'O');
             attroff(COLOR_PAIR(BLINKY));
             break;
         case 'i':
             attron(COLOR_PAIR(INKY));
-            mvaddch(y, x, id);
+            mvaddch(y, x, 'O');
             attroff(COLOR_PAIR(INKY));
             break;
         case 'c':
             attron(COLOR_PAIR(CLYDE));
-            mvaddch(y, x, id);
+            mvaddch(y, x, 'O');
             attroff(COLOR_PAIR(CLYDE));
             break;
         case 'a':
             attron(A_BOLD);
             attron(COLOR_PAIR(PACMAN));
-            mvaddch(y, x, id);
+            mvaddch(y, x, 'O');
             attroff(A_BOLD);
             attroff(COLOR_PAIR(PACMAN));
             break;
@@ -139,6 +147,11 @@ void LibNcurses::DrawId(char const id, int y, int x)
             attroff(COLOR_PAIR(SCARED));
             break;
     }
+}
+
+void LibNcurses::DrawBox()
+{
+    box(_game_window, ACS_VLINE, ACS_HLINE);
 }
 
 void LibNcurses::DrawMap(std::vector<std::string> map)
@@ -159,8 +172,11 @@ void LibNcurses::DrawScore(int score)
 
 void LibNcurses::Display()
 {
-    if (_is_game_over)
-        _is_game_over = false;
+    if (_current_scene != scene_e::GAME) {
+        _current_scene = scene_e::GAME;
+    }
+
+    DrawBox();
     clock_t _end_clock = clock();
     while ((double)(_end_clock - _start_clock) / CLOCKS_PER_SEC <= 0.1) {
         _end_clock = clock();
@@ -171,17 +187,29 @@ void LibNcurses::Display()
 
 void LibNcurses::DisplayMenu()
 {
+    if (_current_scene != scene_e::MENU) {
+        clear();
+        _current_scene  = scene_e::MENU;
+    }
+
+    mvprintw(GRID_SIZE_Y / 4, GRID_SIZE_X / 2 - _menu_prompt.length() / 2, _menu_prompt.c_str());
+    mvprintw(GRID_SIZE_Y / 2, GRID_SIZE_X / 2 - _menu_prompt_games.length() / 2, _menu_prompt_games.c_str());
+    mvprintw(GRID_SIZE_Y / 2 + 1, GRID_SIZE_X / 2 - _menu_prompt_keys.length() / 2, _menu_prompt_keys.c_str());
+    DrawBox();
     refresh();
 }
 
 void LibNcurses::DisplayGameOver()
 {
-    if (!_is_game_over)
-        _is_game_over = true;
+    if (_current_scene != scene_e::GAME_OVER) {
+        clear();
+        _current_scene = scene_e::GAME_OVER;
+    }
 
     mvprintw(1, GRID_SIZE_X / 2 - _game_over_prompt.length() / 2, _game_over_prompt.c_str());
     mvprintw(2, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2, _game_over_score_label.c_str());
     mvprintw(2, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2 + 8, _game_over_score_value.c_str());
+    DrawBox();
     refresh();
 }
 
@@ -192,8 +220,9 @@ void LibNcurses::Destroy()
 
 void LibNcurses::Clear()
 {
-    if (!_is_game_over) {
+    if (_current_scene == scene_e::GAME) {
         clear();
+        DrawBox();
     }
 }
 
@@ -227,7 +256,7 @@ evtKey LibNcurses::GetEventKey()
             return (evtKey::RESET_GAME);
         case 127:
             return (evtKey::GO_MENU);
-        case KEY_ENTER:
+        case 10:
             return (evtKey::CONFIRM_NAME);
         case 'b':
             return (evtKey::PREV_GRAPH);

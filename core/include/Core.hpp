@@ -9,10 +9,12 @@
 #define CORE_HPP_
 
 #include <iostream>
+#include <fstream>
 
 #include "IGraphic.hpp"
 #include "IGame.hpp"
 #include "DLLoader.hpp"
+#include "AError.hpp"
 
 class Core {
 
@@ -20,10 +22,15 @@ class Core {
         Core();
         ~Core();
 
+        int CheckArgs(int argc, char *argv[]);
         void Run();
         bool IsRunning();
         void ReadCoreEvent(evtKey evt);
+        
+        void CheckIfLibIsGraphical(std::string libName);
+        void CheckIfLibExists(std::string libName);
         void CheckIfGameOver(bool state);
+        void PrintUsage();
 
         IGame *GetGame();
         IGraphic *GetGraphic();

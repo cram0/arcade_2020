@@ -24,6 +24,16 @@ DLLoader::~DLLoader()
 
 }
 
+std::map<std::string, std::string> DLLoader::GetGraphicLibsMap()
+{
+    return (_graphic_libs_map);
+}
+
+std::map<std::string, std::string> DLLoader::GetGameLibsMap()
+{
+    return (_game_libs_map);
+}
+
 IGraphic *DLLoader::SwitchGraphic(evtKey evt, graph_e graph_name)
 {
     if (evt == PREV_GRAPH) {
