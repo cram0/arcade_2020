@@ -7,3 +7,4 @@ vgcore.*
 *arcade_ncurses.so
 arcade
 .vscode/settings.json
+lib/vendor/SDL2/*
