@@ -15,12 +15,12 @@ CXXFLAGS       +=       -Wall
 CXXFLAGS       +=       -Wextra
 CXXFLAGS       +=       -Wno-unused-parameter
 CXXFLAGS       +=       -shared -fPIC
-CXXFLAGS       +=       -I./include -I../../vendor -lSDL2 -lSDL2_ttf
+CXXFLAGS       +=       -I./include -I../../vendor
 
 all            :        $(NAME)
 
 $(NAME)        :        $(OBJ)
-						g++ $(CXXFLAGS) -o $(NAME) $(OBJ)
+						g++ $(CXXFLAGS) -o $(NAME) $(OBJ) -lSDL2 -lSDL2_ttf
 
 clean          :
 						find . -name "*.o" -type f -delete
