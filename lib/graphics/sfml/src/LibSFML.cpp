@@ -19,7 +19,7 @@ LibSFML::~LibSFML()
 
 void LibSFML::Initialize()
 {
-    _window.create((sf::VideoMode){WINDOW_WIDTH, WINDOW_HEIGHT, 32}, "Title", sf::Style::Close);
+    _window.create((sf::VideoMode){WINDOW_WIDTH, WINDOW_HEIGHT, 32}, "SFML", sf::Style::Close);
     _window.setFramerateLimit(60);
     _clock.restart();
     InitFont();
@@ -262,6 +262,11 @@ evtKey LibSFML::GetEventKey()
         }
     }
     return (evtKey::NONE);
+}
+
+std::string LibSFML::GetUsername()
+{
+    return (_player_name_input.toAnsiString());
 }
 
 void LibSFML::Destroy()

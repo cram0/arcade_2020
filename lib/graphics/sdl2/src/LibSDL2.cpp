@@ -53,10 +53,10 @@ void LibSDL2::InitMenuText()
 void LibSDL2::InitGameOverText()
 {
     _game_over_text_list.emplace_back(std::make_pair("0", (SDL_Rect){WINDOW_WIDTH / 2 + 50, WINDOW_HEIGHT / 3 + 20, 100, 100}));
+    _game_over_text_list.emplace_back(std::make_pair(_game_over_name_input, (SDL_Rect){10, WINDOW_HEIGHT - 150, 100, 100}));
     _game_over_text_list.emplace_back(std::make_pair("Game Over", (SDL_Rect){WINDOW_WIDTH / 2 - 125, WINDOW_HEIGHT / 4, 100, 100}));
     _game_over_text_list.emplace_back(std::make_pair("Score :", (SDL_Rect){WINDOW_WIDTH / 2 - 125, WINDOW_HEIGHT / 3 + 20, 100, 100}));
     _game_over_text_list.emplace_back(std::make_pair("Enter name :", (SDL_Rect){10, WINDOW_HEIGHT - 250, 100, 100}));
-    _game_over_text_list.emplace_back(std::make_pair("", (SDL_Rect){10, WINDOW_HEIGHT - 150, 100, 100}));
 }
 
 void LibSDL2::InitEverything()
@@ -66,7 +66,7 @@ void LibSDL2::InitEverything()
 		return;
 	}
 	else {
-		_window = SDL_CreateWindow("Title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+		_window = SDL_CreateWindow("SDL2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 		if (_window == NULL) {
 			SDL_LogError(0, "Window initialisation : %s %d : %s", __FILE__, __LINE__, SDL_GetError());
 			return;
@@ -270,8 +270,32 @@ void LibSDL2::DisplayMenu()
     SDL_RenderPresent(_renderer);
 }
 
+void LibSDL2::InputGameOverName()
+{
+    // TODO : FIX CE PB
+    SDL_Delay(4);
+    while (SDL_PollEvent(&_event)) {
+        switch (_event.type) {
+            case SDL_KEYDOWN:
+                if (_event.key.keysym.sym == SDLK_RETURN) return;
+                if (_event.key.keysym.sym == '\b') {
+                    if (!_game_over_text_list[1].first.empty())
+                        _game_over_text_list[1].first.erase(_game_over_text_list[1].first.size() - 1, 1);
+                }
+                else if (_event.key.keysym.sym > 31 && _event.key.keysym.sym < 127) {
+                    _game_over_text_list[1].first += _event.key.keysym.sym;
+                }
+                break;
+            case SDL_QUIT:
+                Destroy();
+                break;
+        }
+    }
+}
+
 void LibSDL2::DisplayGameOver()
 {
+    InputGameOverName();
     for (auto text : _game_over_text_list) {
         DrawText(text.first.c_str(), text.second);
     }
@@ -334,4 +358,9 @@ evtKey LibSDL2::GetEventKey()
         }
     }
     return (evtKey::NONE);
+}
+
+std::string LibSDL2::GetUsername()
+{
+    return (_game_over_name_input);
 }

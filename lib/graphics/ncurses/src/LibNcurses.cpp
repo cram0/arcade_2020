@@ -26,10 +26,15 @@ void LibNcurses::Initialize()
     nodelay(stdscr, TRUE);
     noecho();
     curs_set(0);
-    _start_clock = clock();
     InitMenu();
     InitColors();
     InitGameOver();
+    InitClock();
+}
+
+void LibNcurses::InitClock()
+{
+    _start_clock = clock();
 }
 
 void LibNcurses::InitMenu()
@@ -269,4 +274,9 @@ evtKey LibNcurses::GetEventKey()
     }
 
     return (evtKey::NONE);
+}
+
+std::string LibNcurses::GetUsername()
+{
+
 }

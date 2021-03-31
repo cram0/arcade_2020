@@ -50,6 +50,7 @@ class LibNcurses : public IGraphic {
         void InitColors();
         void InitMenu();
         void InitGameOver();
+        void InitClock();
 
         void DrawBox();
         void DrawId(char const id,  int y, int x);
@@ -61,7 +62,9 @@ class LibNcurses : public IGraphic {
         void Destroy();
         void Clear();
         void Close();
+
         evtKey GetEventKey();
+        std::string GetUsername();
 
     protected:
     private:

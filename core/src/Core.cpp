@@ -28,7 +28,7 @@ void Core::PrintUsage()
 void Core::CheckIfLibIsGraphical(std::string libName)
 {
     for (auto const &lm : GetDLLoader().GetGraphicLibsMap()) {
-        if (lm.first.find(libName) != std::string::npos) {
+        if (libName.find(lm.first) != std::string::npos) {
             return;
         }
     }
@@ -73,6 +73,7 @@ void Core::Run()
             GetGraphic()->DisplayMenu();
         }
         else if (GetCurrentGame() == GAME_OVER) {
+            std::string name = GetGraphic()->GetUsername();
             evtKey key = GetGraphic()->GetEventKey();
             ReadCoreEvent(key);
             GetGraphic()->DisplayGameOver();
