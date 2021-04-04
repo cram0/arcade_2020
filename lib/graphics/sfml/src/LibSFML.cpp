@@ -182,7 +182,8 @@ evtKey LibSFML::InputGameOverName()
                 _player_name.setString(_player_name_input);
             }
             else if (_event.text.unicode > 31 && _event.text.unicode < 127) {
-                _player_name_input += _event.text.unicode;
+                if (_player_name_input.getSize() < 20)
+                    _player_name_input += _event.text.unicode;
                 _player_name.setString(_player_name_input);
             }
         }

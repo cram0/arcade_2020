@@ -12,6 +12,10 @@ Ghost::Ghost(Ghost::ghost_name name, int x, int y)
     _name = name;
     _x = x;
     _y = y;
+    _x_spawn = x;
+    _y_spawn = y;
+    _can_move_clock = clock();
+    _scared_clock = clock();
 }
 
 Ghost::~Ghost()
@@ -57,6 +61,57 @@ Ghost::ghost_name Ghost::GetName()
 std::vector<std::pair<int, int>> Ghost::GetMvtStack()
 {
     return (_mvt_stack);
+}
+
+clock_t Ghost::GetMoveClock()
+{
+    return (_can_move_clock);
+}
+
+clock_t Ghost::GetScaredClock()
+{
+    return (_scared_clock);
+}
+
+void Ghost::UpdateScaredClock()
+{
+    if (!IsScared()) {
+        _scared_clock = clock();
+    }
+    if (IsScared()) {
+        clock_t end = clock();
+        if ((double)(end - _scared_clock) / CLOCKS_PER_SEC * 100 >= 10.0) {
+            _scared_clock = clock();
+            SetScared(false);
+        }
+    }
+}
+
+void Ghost::UpdateMoveClock()
+{
+    if (CanMove()) {
+        _can_move_clock = clock();
+    }
+    if (!CanMove()) {
+        clock_t end = clock();
+        if ((double)(end - _can_move_clock) / CLOCKS_PER_SEC * 100 >= 10.0) {
+            _can_move_clock = clock();
+            SetMove(true);
+        }
+    }
+}
+
+void Ghost::UpdateClocks()
+{
+    UpdateScaredClock();
+    UpdateMoveClock();
+}
+
+void Ghost::ResetPosition()
+{
+    _mvt_stack.clear();
+    _x = _x_spawn;
+    _y = _y_spawn;
 }
 
 void Ghost::SetX(int x)

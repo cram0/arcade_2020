@@ -213,8 +213,9 @@ evtKey LibNcurses::InputGameOverName()
         return (evtKey::NONE);
     }
 
-    if (key >= 'A' && key <= 'z')
-        _player_name += (char)key;
+    if ((key >= 'A' && key <= 'z') || key == ' ')
+        if (_player_name.size() < 20)
+            _player_name += (char)key;
     if (key == KEY_BACKSPACE) {
         if (!_player_name.empty()) {
             _player_name.erase(_player_name.size() - 1, 1);
@@ -233,10 +234,14 @@ void LibNcurses::DisplayGameOver()
         _current_scene = scene_e::GAME_OVER;
     }
 
-    mvprintw(1, GRID_SIZE_X / 2 - _game_over_prompt.length() / 2, _game_over_prompt.c_str());
-    mvprintw(2, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2, _game_over_score_label.c_str());
-    mvprintw(2, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2 + 8, _game_over_score_value.c_str());
-    mvprintw(GRID_SIZE_Y / 4 * 3, GRID_SIZE_X / 2, _player_name.c_str());
+    mvprintw(5, GRID_SIZE_X / 2 - _game_over_prompt.length() / 2, _game_over_prompt.c_str());
+    mvprintw(6, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2, _game_over_score_label.c_str());
+    mvprintw(6, GRID_SIZE_X / 2 - _game_over_score_label.length() / 2 + 8, _game_over_score_value.c_str());
+    mvprintw(GRID_SIZE_Y / 4 * 3 - 1, 4 - 2, "Enter Name :");
+    mvprintw(GRID_SIZE_Y / 4 * 3, 4 - 1, "[");
+    mvprintw(GRID_SIZE_Y / 4 * 3, 4, _player_name.c_str());
+    mvprintw(GRID_SIZE_Y / 4 * 3, 4 + _player_name.length(), " ");
+    mvprintw(GRID_SIZE_Y / 4 * 3, 4 + 20, "]");
     DrawBox();
     refresh();
 }
@@ -282,7 +287,7 @@ evtKey LibNcurses::GetEventKey()
             return (evtKey::NEXT_GAME);
         case 'r':
             return (evtKey::RESET_GAME);
-        case 127:
+        case KEY_DC:
             return (evtKey::GO_MENU);
         case 10:
             return (evtKey::CONFIRM_NAME);

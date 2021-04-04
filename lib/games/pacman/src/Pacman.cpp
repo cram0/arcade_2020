@@ -21,14 +21,10 @@ Pacman::~Pacman()
 void Pacman::InitGhosts()
 {
     srand((unsigned int)time(NULL));
-    Ghost _pinky = Ghost(Ghost::ghost_name::PINKY, 11, 13);
-    Ghost _inky = Ghost(Ghost::ghost_name::INKY, 11, 15);
-    Ghost _clyde = Ghost(Ghost::ghost_name::CLYDE, 16, 13);
-    Ghost _blinky = Ghost(Ghost::ghost_name::BLINKY, 16, 15);
-    _ghost_vector.emplace_back(_pinky);
-    _ghost_vector.emplace_back(_inky);
-    _ghost_vector.emplace_back(_clyde);
-    _ghost_vector.emplace_back(_blinky);
+    _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::PINKY, 11, 13));
+    _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::INKY, 11, 15));
+    _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::CLYDE, 16, 13));
+    _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::BLINKY, 16, 15));
 }
 
 game_e Pacman::GetGameName()
@@ -136,12 +132,18 @@ void Pacman::CheckPacmanCollision()
     }
     if (_game_map[_pacman.y][_pacman.x] == 'u') {
         _game_map[_pacman.y][_pacman.x] = '0';
-        _score += 100;
+        _score += 50;
         SetGhostsToScared();
     }
-    for (auto g : _ghost_vector) {
-        if (_pacman.x == g.GetX() && _pacman.y == g.GetY()) {
+    for (auto &g : _ghost_vector) {
+        if (_pacman.x == g.GetX() && _pacman.y == g.GetY() && !g.IsScared()) {
             _is_game_over = true;
+        }
+        if (_pacman.x == g.GetX() && _pacman.y == g.GetY() && g.IsScared()) {
+            _score += 200;
+            g.ResetPosition();
+            g.SetScared(false);
+            g.SetMove(false);
         }
     }
 }
@@ -252,12 +254,33 @@ bool Pacman::DepthFirstSearch(int pos_x, int pos_y, Ghost &g, std::vector<std::p
 void Pacman::UpdateGhostPos()
 {
     for (auto &g : _ghost_vector) {
-        if (g.GetMvtStack().size() != 0) {
-            g.SetX(g.GetMvtStack().front().first);
-            g.SetY(g.GetMvtStack().front().second);
-            g.RemoveMvt();
+        if (g.CanMove()) {
+            if (g.GetMvtStack().size() != 0) {
+                g.SetX(g.GetMvtStack().front().first);
+                g.SetY(g.GetMvtStack().front().second);
+                g.RemoveMvt();
+            }
         }
     }
+}
+
+void Pacman::UpdateGhostState()
+{
+    for (auto &g : _ghost_vector) {
+        g.UpdateClocks();
+    }
+}
+
+void Pacman::CheckIfWin()
+{
+    for (size_t y = 0; y < GRID_SIZE_Y; y++) {
+        for (size_t x = 0; x < GRID_SIZE_X; x++) {
+            if (_game_map[y][x] == '5') {
+                return;
+            }
+        }
+    }
+    _is_game_over = true;
 }
 
 void Pacman::Update(evtKey key)
@@ -267,6 +290,8 @@ void Pacman::Update(evtKey key)
     UpdatePacmanPos();
     CheckGhostPath();
     UpdateGhostPos();
+    UpdateGhostState();
+    CheckIfWin();
 }
 
 int Pacman::GetScore()

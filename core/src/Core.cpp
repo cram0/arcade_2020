@@ -130,7 +130,7 @@ std::vector<std::pair<std::string, std::string>> Core::GetHighScore(std::string 
 
 bool Core::isOrdered(std::vector<std::pair<std::string, std::string>> list)
 {
-    for (int i = 0; i < list.size() - 1; i++) {
+    for (size_t i = 0; i < list.size() - 1; i++) {
         if (!(std::atoi(list[i].first.c_str()) >= std::atoi(list[i + 1].first.c_str()))) {
             return (false);
         }
@@ -157,7 +157,7 @@ void Core::RegisterHighScoreByGameName(std::string path)
     tmp.push_back(std::make_pair(std::to_string(GetGame()->GetScore()), GetGraphic()->GetUsername()));
 
     while (!isOrdered(tmp)) {
-        for (int i = 0; i < tmp.size() - 1; i++) {
+        for (size_t i = 0; i < tmp.size() - 1; i++) {
             if (std::atoi(tmp[i].first.c_str()) < std::atoi(tmp[i + 1].first.c_str())) {
                 std::swap(tmp[i], tmp[i + 1]);
             }

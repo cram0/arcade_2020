@@ -280,7 +280,12 @@ evtKey LibSDL2::InputGameOverName()
                         _game_over_text_list[1].first.erase(_game_over_text_list[1].first.size() - 1, 1);
                 }
                 else if (_event.key.keysym.sym > 31 && _event.key.keysym.sym < 127) {
-                    _game_over_text_list[1].first += _event.key.keysym.sym;
+                    if (_game_over_text_list[1].first.size() < 20) {
+                        if (SDL_GetModState() == SDL_Keymod::KMOD_LSHIFT)
+                            _game_over_text_list[1].first += _event.key.keysym.sym - 32;
+                        else
+                            _game_over_text_list[1].first += _event.key.keysym.sym;
+                    }
                 }
                 if (_event.key.keysym.sym == SDLK_RETURN)
                     return (evtKey::CONFIRM_NAME);

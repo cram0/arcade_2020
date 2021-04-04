@@ -46,6 +46,7 @@ class Pacman : public IGame {
         void InitMap();
         void InitGhosts();
         bool IsGameOver();
+        void CheckIfWin();
 
         std::vector<std::string> GetMap();
         int GetScore();
@@ -61,6 +62,7 @@ class Pacman : public IGame {
         void UpdateRandomPath(Ghost &g);
         void UpdateChasePath(Ghost &g);
 
+        void UpdateGhostState();
         void UpdateGhostPath(Ghost &g);
         void UpdateGhostPos();
         void CheckGhostPath();
