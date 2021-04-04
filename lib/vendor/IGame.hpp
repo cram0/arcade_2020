@@ -28,6 +28,7 @@ class IGame {
         virtual int GetScore() = 0;
         virtual bool IsGameOver() = 0;
         virtual void Update(evtKey key) = 0;
+        virtual game_e GetGameName() = 0;
 
     protected:
     private:

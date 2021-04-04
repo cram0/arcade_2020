@@ -270,14 +270,11 @@ void LibSDL2::DisplayMenu()
     SDL_RenderPresent(_renderer);
 }
 
-void LibSDL2::InputGameOverName()
+evtKey LibSDL2::InputGameOverName()
 {
-    // TODO : FIX CE PB
-    SDL_Delay(4);
     while (SDL_PollEvent(&_event)) {
         switch (_event.type) {
             case SDL_KEYDOWN:
-                if (_event.key.keysym.sym == SDLK_RETURN) return;
                 if (_event.key.keysym.sym == '\b') {
                     if (!_game_over_text_list[1].first.empty())
                         _game_over_text_list[1].first.erase(_game_over_text_list[1].first.size() - 1, 1);
@@ -285,17 +282,19 @@ void LibSDL2::InputGameOverName()
                 else if (_event.key.keysym.sym > 31 && _event.key.keysym.sym < 127) {
                     _game_over_text_list[1].first += _event.key.keysym.sym;
                 }
+                if (_event.key.keysym.sym == SDLK_RETURN)
+                    return (evtKey::CONFIRM_NAME);
                 break;
             case SDL_QUIT:
                 Destroy();
                 break;
         }
     }
+    return (evtKey::NONE);
 }
 
 void LibSDL2::DisplayGameOver()
 {
-    InputGameOverName();
     for (auto text : _game_over_text_list) {
         DrawText(text.first.c_str(), text.second);
     }
@@ -362,5 +361,5 @@ evtKey LibSDL2::GetEventKey()
 
 std::string LibSDL2::GetUsername()
 {
-    return (_game_over_name_input);
+    return (_game_over_text_list[1].first);
 }

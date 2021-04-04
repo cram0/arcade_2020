@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 
+
 #include "IGraphic.hpp"
 #include "IGame.hpp"
 #include "DLLoader.hpp"
@@ -22,11 +23,11 @@ class Core {
         Core();
         ~Core();
 
-        int CheckArgs(int argc, char *argv[]);
+        void CheckArgs(int argc, char *argv[]);
         void Run();
         bool IsRunning();
         void ReadCoreEvent(evtKey evt);
-        
+
         void CheckIfLibIsGraphical(std::string libName);
         void CheckIfLibExists(std::string libName);
         void CheckIfGameOver(bool state);
@@ -37,6 +38,12 @@ class Core {
         DLLoader GetDLLoader();
         game_e GetCurrentGame();
 
+        bool isOrdered(std::vector<std::pair<std::string, std::string>> list);
+        void SetHighScore(std::string path, std::vector<std::pair<std::string, std::string>> list);
+        std::vector<std::pair<std::string, std::string>> GetHighScore(std::string path);
+        void CheckIfScoreFilesExist();
+        void RegisterHighScoreByGameName(std::string path);
+        void RegisterHighScore(game_e curr_game);
         void SetGame(IGame *game);
         void SetGraphic(IGraphic *graphlib);
         void ChangeCurrentGame(evtKey evt);

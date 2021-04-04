@@ -8,3 +8,5 @@ vgcore.*
 arcade
 .vscode/settings.json
 lib/vendor/SDL2/*
+*/nibbler_score
+*/pacman_score

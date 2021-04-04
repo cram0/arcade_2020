@@ -49,6 +49,7 @@ class Pacman : public IGame {
 
         std::vector<std::string> GetMap();
         int GetScore();
+        game_e GetGameName();
 
         void SetGhostsToScared();
 

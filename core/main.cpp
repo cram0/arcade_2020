@@ -15,10 +15,11 @@ int main(int argc, char *argv[])
         Core core;
         core.CheckArgs(argc, argv);
         core.SetGraphic(core.GetDLLoader().GetGraphicLibrary(std::string(argv[1])));
+        core.CheckIfScoreFilesExist();
         core.Run();
     }
     catch (const std::exception& e) {
-        std::cerr << e.what() << '\n';
+        std::cerr << e.what() << std::endl;
         std::exit(84);
     }
 

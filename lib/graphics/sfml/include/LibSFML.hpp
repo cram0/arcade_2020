@@ -53,7 +53,7 @@ class LibSFML : public IGraphic {
         evtKey GetEventKey();
         std::string GetUsername();
 
-        void InputGameOverName();
+        evtKey InputGameOverName();
 
     protected:
     private:

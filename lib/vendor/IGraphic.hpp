@@ -34,6 +34,7 @@ class IGraphic {
         virtual void Close() = 0;
         virtual evtKey GetEventKey() = 0;
         virtual std::string GetUsername() = 0;
+        virtual evtKey InputGameOverName() = 0;
 
     protected:
     private:

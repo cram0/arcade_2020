@@ -197,3 +197,8 @@ int Nibbler::GetScore()
 {
     return (_score);
 }
+
+game_e Nibbler::GetGameName()
+{
+    return (game_e::NIBBLER);
+}

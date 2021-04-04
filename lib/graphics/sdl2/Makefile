@@ -15,7 +15,7 @@ CXXFLAGS       +=       -Wall
 CXXFLAGS       +=       -Wextra
 CXXFLAGS       +=       -Wno-unused-parameter
 CXXFLAGS       +=       -shared -fPIC
-CXXFLAGS       +=       -I./include -I../../vendor
+CXXFLAGS       +=       -I./include -I../../vendor -I../../vendor/SDL2
 
 all            :        $(NAME)
 

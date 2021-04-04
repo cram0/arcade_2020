@@ -172,7 +172,7 @@ void LibSFML::DrawScore(int score)
     _window.draw(_score_label);
 }
 
-void LibSFML::InputGameOverName()
+evtKey LibSFML::InputGameOverName()
 {
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::TextEntered) {
@@ -186,7 +186,10 @@ void LibSFML::InputGameOverName()
                 _player_name.setString(_player_name_input);
             }
         }
+        if (_event.key.code == sf::Keyboard::Enter)
+            return (evtKey::CONFIRM_NAME);
     }
+    return (evtKey::NONE);
 }
 
 void LibSFML::UpdateGameOverScoreValue()
@@ -198,7 +201,6 @@ void LibSFML::UpdateGameOverScoreValue()
 
 void LibSFML::DisplayGameOver()
 {
-    InputGameOverName();
     UpdateGameOverScoreValue();
     _window.draw(_game_over_score_prompt);
     _window.draw(_game_over_score_value);

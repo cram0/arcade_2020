@@ -62,6 +62,7 @@ class LibNcurses : public IGraphic {
         void Destroy();
         void Clear();
         void Close();
+        evtKey InputGameOverName();
 
         evtKey GetEventKey();
         std::string GetUsername();
@@ -79,6 +80,8 @@ class LibNcurses : public IGraphic {
         std::string _game_over_prompt;
         std::string _game_over_score_label;
         std::string _game_over_score_value;
+
+        std::string _player_name;
 
 
 };

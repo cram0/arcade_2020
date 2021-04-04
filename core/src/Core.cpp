@@ -42,7 +42,7 @@ void Core::CheckIfLibExists(std::string libName)
         throw AError(std::cerr, "./arcade: file \"" + libName + "\" doesn't exist.");
 }
 
-int Core::CheckArgs(int argc, char *argv[])
+void Core::CheckArgs(int argc, char *argv[])
 {
     if (argc == 1){
         throw AError(std::cerr, "./arcade: missing graphic library name\nTry '-h' for more information.");
@@ -73,8 +73,7 @@ void Core::Run()
             GetGraphic()->DisplayMenu();
         }
         else if (GetCurrentGame() == GAME_OVER) {
-            std::string name = GetGraphic()->GetUsername();
-            evtKey key = GetGraphic()->GetEventKey();
+            evtKey key = GetGraphic()->InputGameOverName();
             ReadCoreEvent(key);
             GetGraphic()->DisplayGameOver();
         }
@@ -92,10 +91,95 @@ void Core::Run()
     GetDLLoader().CloseHandles();
 }
 
+void Core::CheckIfScoreFilesExist()
+{
+    std::ifstream i_file_n;
+    i_file_n.open("./lib/games/score/nibbler_score");
+    if (!i_file_n.good()) {
+        std::ofstream o_file_n { "./lib/games/score/nibbler_score" };
+        o_file_n.close();
+    }
+    std::ifstream i_file_p;
+    i_file_p.open("./lib/games/score/pacman_score");
+    if (!i_file_p.good()) {
+        std::ofstream o_file_p { "./lib/games/score/pacman_score" };
+        o_file_p.close();
+    }
+}
+
+std::vector<std::pair<std::string, std::string>> Core::GetHighScore(std::string path)
+{
+    std::ifstream file("./lib/games/score/" + path);
+    if (!file.good())
+        throw AError(std::cerr, "./arcade: file : ./lib/games/score/" + path + " doesn't exist");
+
+    std::vector<std::pair<std::string, std::string>> tmp;
+    std::string line, score, name;
+    size_t space;
+
+    while (getline(file, line)) {
+        space = line.find(' ');
+        score = line.substr(0, space);
+        name = line.substr(space + 1, std::string::npos);
+
+        tmp.push_back(std::make_pair(score, name));
+    }
+    file.close();
+    return (tmp);
+}
+
+bool Core::isOrdered(std::vector<std::pair<std::string, std::string>> list)
+{
+    for (int i = 0; i < list.size() - 1; i++) {
+        if (!(std::atoi(list[i].first.c_str()) >= std::atoi(list[i + 1].first.c_str()))) {
+            return (false);
+        }
+    }
+    return (true);
+}
+
+void Core::SetHighScore(std::string path, std::vector<std::pair<std::string, std::string>> list)
+{
+    std::fstream file("./lib/games/score/" + path, std::ios::out);
+    if (!file.good())
+        throw AError(std::cerr, "./arcade: file : ./lib/games/score/" + path + " doesn't exist");
+
+    for (size_t i = 0; i < list.size() && i < 5; i++) {
+        file << list[i].first << " " << list[i].second << std::endl;
+    }
+
+    file.close();
+}
+
+void Core::RegisterHighScoreByGameName(std::string path)
+{
+    std::vector<std::pair<std::string, std::string>> tmp = GetHighScore(path);
+    tmp.push_back(std::make_pair(std::to_string(GetGame()->GetScore()), GetGraphic()->GetUsername()));
+
+    while (!isOrdered(tmp)) {
+        for (int i = 0; i < tmp.size() - 1; i++) {
+            if (std::atoi(tmp[i].first.c_str()) < std::atoi(tmp[i + 1].first.c_str())) {
+                std::swap(tmp[i], tmp[i + 1]);
+            }
+        }
+    }
+
+    SetHighScore(path, tmp);
+}
+
+void Core::RegisterHighScore(game_e curr_game)
+{
+    if (curr_game == game_e::PACMAN)
+        RegisterHighScoreByGameName("pacman_score");
+    if (curr_game == game_e::NIBBLER)
+        RegisterHighScoreByGameName("nibbler_score");
+}
+
 void Core::CheckIfGameOver(bool state)
 {
-    if (state)
+    if (state) {
         _current_game = GAME_OVER;
+    }
 }
 
 void Core::ChangeCurrentGraphic(evtKey evt)
@@ -187,6 +271,7 @@ void Core::ReadCoreEvent(evtKey evt)
     }
     if (evt == evtKey::CONFIRM_NAME) {
         if (_current_game == game_e::GAME_OVER) {
+            RegisterHighScore(GetGame()->GetGameName());
             ChangeCurrentGame(evt);
         }
     }

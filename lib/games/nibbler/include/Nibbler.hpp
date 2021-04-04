@@ -50,6 +50,8 @@ class Nibbler : public IGame {
 
         std::vector<std::string> GetMap();
         int GetScore();
+        game_e GetGameName();
+
         bool IsGameOver();
 
         void Update(evtKey key);

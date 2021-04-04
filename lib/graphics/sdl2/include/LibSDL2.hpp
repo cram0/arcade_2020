@@ -47,7 +47,7 @@ class LibSDL2 : public IGraphic {
         void DrawMapBackground();
         void DrawMap(std::vector<std::string> map);
 
-        void InputGameOverName();
+        evtKey InputGameOverName();
         void UpdateScoreValue(int score);
         void DrawText(const char *text, SDL_Rect rect);
         void DrawScore(int score);

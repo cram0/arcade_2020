@@ -31,6 +31,11 @@ void Pacman::InitGhosts()
     _ghost_vector.emplace_back(_blinky);
 }
 
+game_e Pacman::GetGameName()
+{
+    return (game_e::PACMAN);
+}
+
 void Pacman::InitMap()
 {
     std::ifstream file("lib/games/pacman/map");
