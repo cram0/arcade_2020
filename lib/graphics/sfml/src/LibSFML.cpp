@@ -171,9 +171,26 @@ void LibSFML::DrawScore(int score)
     _window.draw(_score_label);
 }
 
-void LibSFML::DrawHighScores(std::vector<std::pair<std::string, std::string>> list)
+void LibSFML::DrawHighScores(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list)
 {
-
+    sf::Vector2f pacman_pos = {WINDOW_WIDTH / 4 + 200, WINDOW_HEIGHT / 4 + 250};
+    unsigned short place = 1;
+    for (auto p : pacman_list) {
+        sf::Text text = sf::Text(std::to_string(place++) + ". " + p.first + " " + p.second, _font, 19);
+        text.setPosition(pacman_pos);
+        text.setFillColor(sf::Color::White);
+        _window.draw(text);
+        pacman_pos.y += 20;
+    }
+    place = 1;
+    sf::Vector2f nibbler_pos = {WINDOW_WIDTH / 6, WINDOW_HEIGHT / 4 + 250};
+    for (auto n : nibbler_list) {
+        sf::Text text = sf::Text(std::to_string(place++) + ". " + n.first + " " + n.second, _font, 19);
+        text.setPosition(nibbler_pos);
+        text.setFillColor(sf::Color::White);
+        _window.draw(text);
+        nibbler_pos.y += 20;
+    }
 }
 
 evtKey LibSFML::InputGameOverName()

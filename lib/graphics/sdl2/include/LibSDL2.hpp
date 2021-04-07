@@ -46,11 +46,12 @@ class LibSDL2 : public IGraphic {
 
         void DrawMapBackground();
         void DrawMap(std::vector<std::string> map);
-        void DrawHighScores(std::vector<std::pair<std::string, std::string>> list);
+        void PopulateHighScoresLists(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list);
+        void DrawHighScores(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list);
 
         evtKey InputGameOverName();
         void UpdateScoreValue(int score);
-        void DrawText(const char *text, SDL_Rect rect);
+        void DrawText(const char *text, SDL_Rect rect, int font_size);
         void DrawScore(int score);
         void Display(AClock &delta);
         void DisplayMenu();
@@ -71,6 +72,8 @@ class LibSDL2 : public IGraphic {
         TTF_Font *_font = nullptr;
         std::vector<std::pair<std::string, SDL_Rect>> _score_text_list;
         std::vector<std::pair<std::string, SDL_Rect>> _menu_text_list;
+        std::vector<std::pair<std::string, SDL_Rect>> _menu_highscores_pacman_list;
+        std::vector<std::pair<std::string, SDL_Rect>> _menu_highscores_nibbler_list;
         std::vector<std::pair<std::string, SDL_Rect>> _game_over_text_list;
         std::string _game_over_name_input;
 };

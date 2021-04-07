@@ -33,7 +33,6 @@ void LibSDL2::InitFont()
         SDL_LogError(0, "TTF_Init initialisation : %s %d : %s", __FILE__, __LINE__, TTF_GetError());
         return;
     }
-    _font = TTF_OpenFont("lib/graphics/sdl2/font/OpenSans-Regular.ttf", 50);
 }
 
 void LibSDL2::InitGameText()
@@ -226,15 +225,17 @@ void LibSDL2::DrawMap(std::vector<std::string> map)
     }
 }
 
-void LibSDL2::DrawText(const char *text, SDL_Rect rect)
+void LibSDL2::DrawText(const char *text, SDL_Rect rect, int font_size)
 {
+    TTF_Font *font = TTF_OpenFont("lib/graphics/sdl2/font/OpenSans-Regular.ttf", font_size);
     SDL_Color color = {255, 255, 255, 255};
-    SDL_Surface *text_sf = TTF_RenderText_Blended_Wrapped(_font, text, color, (Uint32)1000);
+    SDL_Surface *text_sf = TTF_RenderText_Blended_Wrapped(font, text, color, (Uint32)1000);
     SDL_Texture *tmp = SDL_CreateTextureFromSurface(_renderer, text_sf);
     SDL_QueryTexture(tmp, NULL, NULL, &rect.w, &rect.h);
     SDL_RenderCopy(_renderer, tmp, NULL, &rect);
     SDL_FreeSurface(text_sf);
     SDL_DestroyTexture(tmp);
+    TTF_CloseFont(font);
 }
 
 void LibSDL2::UpdateScoreValue(int score)
@@ -247,13 +248,37 @@ void LibSDL2::DrawScore(int score)
 {
     UpdateScoreValue(score);
     for (auto text : _score_text_list) {
-        DrawText(text.first.c_str(), text.second);
+        DrawText(text.first.c_str(), text.second, 50);
     }
 }
 
-void LibSDL2::DrawHighScores(std::vector<std::pair<std::string, std::string>> list)
+void LibSDL2::PopulateHighScoresLists(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list)
 {
+    _menu_highscores_nibbler_list.clear();
+    _menu_highscores_pacman_list.clear();
+    SDL_Rect rt_pacman = {WINDOW_WIDTH / 4 + 200, WINDOW_HEIGHT / 4 + 250, 100, 100};
+    unsigned short place = 1;
+    for (auto &p : pacman_list) {
+        _menu_highscores_pacman_list.emplace_back(std::make_pair(std::to_string(place++) + ". " + p.first + " " + p.second, rt_pacman));
+        rt_pacman.y += 20;
+    }
+    SDL_Rect rt_nibbler = {WINDOW_WIDTH / 6, WINDOW_HEIGHT / 4 + 250, 100, 100};
+    place = 1;
+    for (auto &n : nibbler_list) {
+        _menu_highscores_nibbler_list.emplace_back(std::make_pair(std::to_string(place++) + ". " + n.first + " " + n.second, rt_nibbler));
+        rt_nibbler.y += 20;
+    }
+}
 
+void LibSDL2::DrawHighScores(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list)
+{
+    PopulateHighScoresLists(pacman_list, nibbler_list);
+    for (auto &text : _menu_highscores_nibbler_list) {
+        DrawText(text.first.c_str(), text.second, 19);
+    }
+    for (auto &text : _menu_highscores_pacman_list) {
+        DrawText(text.first.c_str(), text.second, 19);
+    }
 }
 
 void LibSDL2::Display(AClock &delta)
@@ -267,7 +292,7 @@ void LibSDL2::Display(AClock &delta)
 void LibSDL2::DisplayMenu()
 {
     for (auto text : _menu_text_list) {
-        DrawText(text.first.c_str(), text.second);
+        DrawText(text.first.c_str(), text.second, 40);
     }
     SDL_RenderPresent(_renderer);
 }
@@ -303,7 +328,7 @@ evtKey LibSDL2::InputGameOverName()
 void LibSDL2::DisplayGameOver()
 {
     for (auto text : _game_over_text_list) {
-        DrawText(text.first.c_str(), text.second);
+        DrawText(text.first.c_str(), text.second, 50);
     }
     SDL_RenderPresent(_renderer);
 }

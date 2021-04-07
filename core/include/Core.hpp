@@ -40,7 +40,7 @@ class Core {
 
         bool isOrdered(std::vector<std::pair<std::string, std::string>> list);
         void SetHighScore(std::string path, std::vector<std::pair<std::string, std::string>> list);
-        std::vector<std::pair<std::string, std::string>> GetHighScores(game_e curr_game);
+        void RefreshHighScores(game_e curr_game);
         std::vector<std::pair<std::string, std::string>> GetHighScoresByGameName(std::string path);
         void CheckIfScoreFilesExist();
         void RegisterHighScoresByGameName(std::string path);
@@ -56,6 +56,9 @@ class Core {
         game_e _current_game = NO_GAME;
         graph_e _current_graphic = SFML;
         game_e _game_before_pause = NO_GAME;
+
+        std::vector<std::pair<std::string, std::string>> _nibbler_highscores_list;
+        std::vector<std::pair<std::string, std::string>> _pacman_highscores_list;
 
         IGame *_game;
         IGraphic *_graphlib;

@@ -55,7 +55,7 @@ class LibNcurses : public IGraphic {
         void DrawId(char const id,  int y, int x);
         void DrawMap(std::vector<std::string> map);
         void DrawScore(int score);
-        void DrawHighScores(std::vector<std::pair<std::string, std::string>> list);
+        void DrawHighScores(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list);
 
         void Display(AClock &delta);
         void DisplayMenu();

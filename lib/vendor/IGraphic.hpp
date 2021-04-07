@@ -27,7 +27,7 @@ class IGraphic {
         virtual void Initialize() = 0;
         virtual void DrawMap(std::vector<std::string> map) = 0;
         virtual void DrawScore(int score) = 0;
-        virtual void DrawHighScores(std::vector<std::pair<std::string, std::string>> list) = 0;
+        virtual void DrawHighScores(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list) = 0;
         virtual void Display(AClock &delta) = 0;
         virtual void DisplayMenu() = 0;
         virtual void DisplayGameOver() = 0;

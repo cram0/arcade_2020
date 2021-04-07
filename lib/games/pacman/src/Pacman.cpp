@@ -21,6 +21,7 @@ Pacman::~Pacman()
 void Pacman::InitGhosts()
 {
     srand((unsigned int)time(NULL));
+    _ghost_vector.clear();
     _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::PINKY, 11, 13));
     _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::INKY, 11, 15));
     _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::CLYDE, 16, 13));
@@ -34,6 +35,7 @@ game_e Pacman::GetGameName()
 
 void Pacman::InitMap()
 {
+    _game_map.clear();
     std::ifstream file("lib/games/pacman/map");
     std::string row;
     if (file.is_open()) {
@@ -94,17 +96,17 @@ std::vector<std::string> Pacman::GetMap()
 void Pacman::UpdatePacmanPos()
 {
     if (_pacman.dir == direction::DOWN)
-        _pacman.y = (_game_map[_pacman.y + 1][_pacman.x] != '4') ? _pacman.y + 1 : _pacman.y;
+        _pacman.y = (_game_map[_pacman.y + 1][_pacman.x] != '4' && _game_map[_pacman.y + 1][_pacman.x] != '-') ? _pacman.y + 1 : _pacman.y;
     if (_pacman.dir == direction::UP)
-        _pacman.y = (_game_map[_pacman.y - 1][_pacman.x] != '4') ? _pacman.y - 1 : _pacman.y;
+        _pacman.y = (_game_map[_pacman.y - 1][_pacman.x] != '4' && _game_map[_pacman.y - 1][_pacman.x] != '-') ? _pacman.y - 1 : _pacman.y;
     if (_pacman.dir == direction::LEFT) {
         if (_pacman.x - 1 >= 0) {
-            _pacman.x = (_game_map[_pacman.y][_pacman.x - 1] != '4') ? _pacman.x - 1 : _pacman.x;
+            _pacman.x = (_game_map[_pacman.y][_pacman.x - 1] != '4' && _game_map[_pacman.y][_pacman.x - 1] != '-') ? _pacman.x - 1 : _pacman.x;
         }
     }
     if (_pacman.dir == direction::RIGHT) {
         if (_pacman.x + 1 <= GRID_SIZE_X) {
-            _pacman.x = (_game_map[_pacman.y][_pacman.x + 1] != '4') ? _pacman.x + 1 : _pacman.x;
+            _pacman.x = (_game_map[_pacman.y][_pacman.x + 1] != '4' && _game_map[_pacman.y][_pacman.x + 1] != '-') ? _pacman.x + 1 : _pacman.x;
         }
     }
 }
@@ -285,7 +287,8 @@ void Pacman::CheckIfWin()
             }
         }
     }
-    _is_game_over = true;
+    InitMap();
+    InitGhosts();
 }
 
 void Pacman::Update(evtKey key)

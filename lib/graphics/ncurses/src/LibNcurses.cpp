@@ -170,9 +170,20 @@ void LibNcurses::DrawScore(int score)
     mvprintw(2, GRID_SIZE_X + 5, _game_over_score_value.c_str());
 }
 
-void LibNcurses::DrawHighScores(std::vector<std::pair<std::string, std::string>> list)
+void LibNcurses::DrawHighScores(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list)
 {
-
+    unsigned short place = 1;
+    int pos_y = 15;
+    mvprintw(pos_y - 1, 1, "Pacman Highscores :");
+    for (auto p : pacman_list) {
+        mvprintw(pos_y++, 1, (std::string){std::to_string(place++) + ". " + p.first + " " + p.second}.c_str());
+    }
+    place = 1;
+    pos_y++;
+    mvprintw(pos_y++, 1, "Nibbler Highscores :");
+    for (auto n : nibbler_list) {
+        mvprintw(pos_y++, 1, (std::string){std::to_string(place++) + ". " + n.first + " " + n.second}.c_str());
+    }
 }
 
 void LibNcurses::Display(AClock &delta)
@@ -197,8 +208,8 @@ void LibNcurses::DisplayMenu()
     }
 
     mvprintw(GRID_SIZE_Y / 4, GRID_SIZE_X / 2 - _menu_prompt.length() / 2, _menu_prompt.c_str());
-    mvprintw(GRID_SIZE_Y / 2, GRID_SIZE_X / 2 - _menu_prompt_games.length() / 2, _menu_prompt_games.c_str());
-    mvprintw(GRID_SIZE_Y / 2 + 1, GRID_SIZE_X / 2 - _menu_prompt_keys.length() / 2, _menu_prompt_keys.c_str());
+    mvprintw(GRID_SIZE_Y / 3, GRID_SIZE_X / 2 - _menu_prompt_games.length() / 2, _menu_prompt_games.c_str());
+    mvprintw(GRID_SIZE_Y / 3 + 1, GRID_SIZE_X / 2 - _menu_prompt_keys.length() / 2, _menu_prompt_keys.c_str());
     DrawBox();
     refresh();
 }

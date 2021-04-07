@@ -70,6 +70,9 @@ void Core::Run()
         if (GetCurrentGame() == NO_GAME) {
             evtKey key = GetGraphic()->GetEventKey();
             ReadCoreEvent(key);
+            RefreshHighScores(PACMAN);
+            RefreshHighScores(NIBBLER);
+            GetGraphic()->DrawHighScores(_pacman_highscores_list, _nibbler_highscores_list);
             GetGraphic()->DisplayMenu();
         }
         else if (GetCurrentGame() == GAME_OVER) {
@@ -107,27 +110,6 @@ void Core::CheckIfScoreFilesExist()
     }
 }
 
-std::vector<std::pair<std::string, std::string>> Core::GetHighScoresByGameName(std::string path)
-{
-    std::ifstream file("./lib/games/score/" + path);
-    if (!file.good())
-        throw AError(std::cerr, "./arcade: file : ./lib/games/score/" + path + " doesn't exist");
-
-    std::vector<std::pair<std::string, std::string>> tmp;
-    std::string line, score, name;
-    size_t space;
-
-    while (getline(file, line)) {
-        space = line.find(' ');
-        score = line.substr(0, space);
-        name = line.substr(space + 1, std::string::npos);
-
-        tmp.push_back(std::make_pair(score, name));
-    }
-    file.close();
-    return (tmp);
-}
-
 bool Core::isOrdered(std::vector<std::pair<std::string, std::string>> list)
 {
     for (size_t i = 0; i < list.size() - 1; i++) {
@@ -140,7 +122,7 @@ bool Core::isOrdered(std::vector<std::pair<std::string, std::string>> list)
 
 void Core::SetHighScore(std::string path, std::vector<std::pair<std::string, std::string>> list)
 {
-    std::fstream file("./lib/games/score/" + path, std::ios::out);
+    std::ofstream file("./lib/games/score/" + path, std::ios::out);
     if (!file.good())
         throw AError(std::cerr, "./arcade: file : ./lib/games/score/" + path + " doesn't exist");
 
@@ -175,12 +157,43 @@ void Core::RegisterHighScores(game_e curr_game)
         RegisterHighScoresByGameName("nibbler_score");
 }
 
-std::vector<std::pair<std::string, std::string>> Core::GetHighScores(game_e curr_game)
+std::vector<std::pair<std::string, std::string>> Core::GetHighScoresByGameName(std::string path)
+{
+    if (path.compare("pacman_score") == 0)
+        _pacman_highscores_list.clear();
+    if (path.compare("nibbler_score") == 0)
+        _nibbler_highscores_list.clear();
+    std::ifstream file("./lib/games/score/" + path);
+    if (!file.good())
+        throw AError(std::cerr, "./arcade: file : ./lib/games/score/" + path + " doesn't exist");
+
+    std::vector<std::pair<std::string, std::string>> tmp;
+    std::string line, score, name;
+    size_t space;
+
+    while (getline(file, line)) {
+        space = line.find(' ');
+        score = line.substr(0, space);
+        name = line.substr(space + 1, std::string::npos);
+
+        if (path.compare("pacman_score") == 0)
+            _pacman_highscores_list.push_back(std::make_pair(score, name));
+        if (path.compare("nibbler_score") == 0)
+            _nibbler_highscores_list.push_back(std::make_pair(score, name));
+
+        tmp.push_back(std::make_pair(score, name));
+    }
+
+    file.close();
+    return (tmp);
+}
+
+void Core::RefreshHighScores(game_e curr_game)
 {
     if (curr_game == game_e::PACMAN)
-        return (GetHighScoresByGameName("pacman_score"));
+        GetHighScoresByGameName("pacman_score");
     else
-        return (GetHighScoresByGameName("nibbler_score"));
+        GetHighScoresByGameName("nibbler_score");
 }
 
 void Core::CheckIfGameOver(bool state)

@@ -41,7 +41,7 @@ class LibSFML : public IGraphic {
         void DrawShapeFromID(char id, sf::Vector2f r_pos);
         void DrawMap(std::vector<std::string> map);
         void DrawScore(int score);
-        void DrawHighScores(std::vector<std::pair<std::string, std::string>> list);
+        void DrawHighScores(std::vector<std::pair<std::string, std::string>> &pacman_list, std::vector<std::pair<std::string, std::string>> &nibbler_list);
 
         void Display(AClock &delta);
         void DisplayMenu();
