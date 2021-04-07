@@ -41,8 +41,9 @@ class LibSFML : public IGraphic {
         void DrawShapeFromID(char id, sf::Vector2f r_pos);
         void DrawMap(std::vector<std::string> map);
         void DrawScore(int score);
+        void DrawHighScores(std::vector<std::pair<std::string, std::string>> list);
 
-        void Display();
+        void Display(AClock &delta);
         void DisplayMenu();
         void DisplayGameOver();
 
@@ -59,7 +60,6 @@ class LibSFML : public IGraphic {
     private:
         sf::RenderWindow _window;
         sf::Event _event;
-        sf::Clock _clock;
 
         sf::Text _score_value;
         sf::Text _score_label;

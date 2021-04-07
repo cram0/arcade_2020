@@ -7,7 +7,8 @@
 
 NAME           =        ../../arcade_sfml.so
 
-SRC            =        $(shell find . -name '*.cpp')
+SRC            =        $(shell find . -name '*.cpp') \
+						../../../core/src/AClock.cpp
 
 OBJ            =        $(SRC:.cpp=.o)
 
@@ -15,7 +16,7 @@ CXXFLAGS       +=       -Wall
 CXXFLAGS       +=       -Wextra
 CXXFLAGS       +=       -Wno-unused-parameter
 CXXFLAGS       +=       -shared -fPIC
-CXXFLAGS       +=       -I./include -I../../vendor
+CXXFLAGS       +=       -I./include -I../../vendor -I../../../core/include
 
 all            :        $(NAME)
 

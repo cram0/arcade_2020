@@ -84,7 +84,7 @@ void Core::Run()
             CheckIfGameOver(GetGame()->IsGameOver());
             GetGraphic()->DrawMap(GetGame()->GetMap());
             GetGraphic()->DrawScore(GetGame()->GetScore());
-            GetGraphic()->Display();
+            GetGraphic()->Display(GetGame()->GetDeltaTime());
         }
     }
 
@@ -107,7 +107,7 @@ void Core::CheckIfScoreFilesExist()
     }
 }
 
-std::vector<std::pair<std::string, std::string>> Core::GetHighScore(std::string path)
+std::vector<std::pair<std::string, std::string>> Core::GetHighScoresByGameName(std::string path)
 {
     std::ifstream file("./lib/games/score/" + path);
     if (!file.good())
@@ -151,9 +151,9 @@ void Core::SetHighScore(std::string path, std::vector<std::pair<std::string, std
     file.close();
 }
 
-void Core::RegisterHighScoreByGameName(std::string path)
+void Core::RegisterHighScoresByGameName(std::string path)
 {
-    std::vector<std::pair<std::string, std::string>> tmp = GetHighScore(path);
+    std::vector<std::pair<std::string, std::string>> tmp = GetHighScoresByGameName(path);
     tmp.push_back(std::make_pair(std::to_string(GetGame()->GetScore()), GetGraphic()->GetUsername()));
 
     while (!isOrdered(tmp)) {
@@ -167,12 +167,20 @@ void Core::RegisterHighScoreByGameName(std::string path)
     SetHighScore(path, tmp);
 }
 
-void Core::RegisterHighScore(game_e curr_game)
+void Core::RegisterHighScores(game_e curr_game)
 {
     if (curr_game == game_e::PACMAN)
-        RegisterHighScoreByGameName("pacman_score");
+        RegisterHighScoresByGameName("pacman_score");
     if (curr_game == game_e::NIBBLER)
-        RegisterHighScoreByGameName("nibbler_score");
+        RegisterHighScoresByGameName("nibbler_score");
+}
+
+std::vector<std::pair<std::string, std::string>> Core::GetHighScores(game_e curr_game)
+{
+    if (curr_game == game_e::PACMAN)
+        return (GetHighScoresByGameName("pacman_score"));
+    else
+        return (GetHighScoresByGameName("nibbler_score"));
 }
 
 void Core::CheckIfGameOver(bool state)
@@ -271,7 +279,7 @@ void Core::ReadCoreEvent(evtKey evt)
     }
     if (evt == evtKey::CONFIRM_NAME) {
         if (_current_game == game_e::GAME_OVER) {
-            RegisterHighScore(GetGame()->GetGameName());
+            RegisterHighScores(GetGame()->GetGameName());
             ChangeCurrentGame(evt);
         }
     }

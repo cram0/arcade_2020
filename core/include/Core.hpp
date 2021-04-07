@@ -40,10 +40,11 @@ class Core {
 
         bool isOrdered(std::vector<std::pair<std::string, std::string>> list);
         void SetHighScore(std::string path, std::vector<std::pair<std::string, std::string>> list);
-        std::vector<std::pair<std::string, std::string>> GetHighScore(std::string path);
+        std::vector<std::pair<std::string, std::string>> GetHighScores(game_e curr_game);
+        std::vector<std::pair<std::string, std::string>> GetHighScoresByGameName(std::string path);
         void CheckIfScoreFilesExist();
-        void RegisterHighScoreByGameName(std::string path);
-        void RegisterHighScore(game_e curr_game);
+        void RegisterHighScoresByGameName(std::string path);
+        void RegisterHighScores(game_e curr_game);
         void SetGame(IGame *game);
         void SetGraphic(IGraphic *graphlib);
         void ChangeCurrentGame(evtKey evt);

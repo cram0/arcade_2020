@@ -9,7 +9,7 @@
 #define GHOST_HPP_
 
 #include <vector>
-#include <ctime>
+#include "AClock.hpp"
 
 class Ghost {
     public:
@@ -38,8 +38,8 @@ class Ghost {
         bool CanMove();
         ghost_name GetName();
         std::vector<std::pair<int, int>> GetMvtStack();
-        clock_t GetMoveClock();
-        clock_t GetScaredClock();
+        AClock &GetMoveClock();
+        AClock &GetScaredClock();
 
         void SetX(int x);
         void SetY(int y);
@@ -70,8 +70,8 @@ class Ghost {
         bool _can_move = false;
         bool _is_scared = false;
         std::vector<std::pair<int, int>> _mvt_stack;
-        clock_t _can_move_clock;
-        clock_t _scared_clock;
+        AClock _can_move_clock;
+        AClock _scared_clock;
 };
 
 #endif /* !GHOST_HPP_ */

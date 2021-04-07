@@ -79,7 +79,7 @@ IGame *DLLoader::GetGameLibrary(std::string const &path)
     char *error;
     IGame *(*tmp)();
 
-    _handle_game = dlopen(path.c_str(), RTLD_LAZY);
+    _handle_game = dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
 
     if (!_handle_game) {
         fprintf(stderr, "%s\n", dlerror());
@@ -103,7 +103,7 @@ IGraphic *DLLoader::GetGraphicLibrary(std::string const &path)
 {
     char *error;
     IGraphic *(*tmp)();
-    _handle_graphic = dlopen(path.c_str(), RTLD_LAZY);
+    _handle_graphic = dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
 
     if (!_handle_graphic) {
         fprintf(stderr, "%s\n", dlerror());

@@ -29,13 +29,7 @@ void LibNcurses::Initialize()
     InitMenu();
     InitColors();
     InitGameOver();
-    InitClock();
     _player_name = "";
-}
-
-void LibNcurses::InitClock()
-{
-    _start_clock = clock();
 }
 
 void LibNcurses::InitMenu()
@@ -176,19 +170,23 @@ void LibNcurses::DrawScore(int score)
     mvprintw(2, GRID_SIZE_X + 5, _game_over_score_value.c_str());
 }
 
-void LibNcurses::Display()
+void LibNcurses::DrawHighScores(std::vector<std::pair<std::string, std::string>> list)
+{
+
+}
+
+void LibNcurses::Display(AClock &delta)
 {
     if (_current_scene != scene_e::GAME) {
         _current_scene = scene_e::GAME;
     }
 
     DrawBox();
-    clock_t _end_clock = clock();
-    while ((double)(_end_clock - _start_clock) / CLOCKS_PER_SEC <= 0.1) {
-        _end_clock = clock();
+
+    while (delta.GetElapsedTime() <= 0.1) {
         refresh();
     }
-    _start_clock = clock();
+    delta.Restart();
 }
 
 void LibNcurses::DisplayMenu()

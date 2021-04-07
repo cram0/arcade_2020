@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "evtVar.hpp"
+#include "AClock.hpp"
 
 typedef enum {
     NO_GAME,
@@ -29,6 +30,7 @@ class IGame {
         virtual bool IsGameOver() = 0;
         virtual void Update(evtKey key) = 0;
         virtual game_e GetGameName() = 0;
+        virtual AClock &GetDeltaTime() = 0;
 
     protected:
     private:

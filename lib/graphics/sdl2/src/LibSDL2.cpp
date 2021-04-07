@@ -25,7 +25,6 @@ void LibSDL2::Initialize()
     InitGameText();
     InitMenuText();
     InitGameOverText();
-    _start_clock = clock();
 }
 
 void LibSDL2::InitFont()
@@ -252,14 +251,17 @@ void LibSDL2::DrawScore(int score)
     }
 }
 
-void LibSDL2::Display()
+void LibSDL2::DrawHighScores(std::vector<std::pair<std::string, std::string>> list)
 {
-    clock_t _end_clock = clock();
-    while ((double)(_end_clock - _start_clock) / CLOCKS_PER_SEC <= 0.1) {
-        _end_clock = clock();
+
+}
+
+void LibSDL2::Display(AClock &delta)
+{
+    while (delta.GetElapsedTime() <= 0.1) {
         SDL_RenderPresent(_renderer);
     }
-    _start_clock = clock();
+    delta.Restart();
 }
 
 void LibSDL2::DisplayMenu()

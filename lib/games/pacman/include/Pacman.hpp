@@ -51,6 +51,7 @@ class Pacman : public IGame {
         std::vector<std::string> GetMap();
         int GetScore();
         game_e GetGameName();
+        AClock &GetDeltaTime();
 
         void SetGhostsToScared();
 
@@ -80,6 +81,9 @@ class Pacman : public IGame {
         bool _is_game_over = false;
 
         pacman_t _pacman;
+
+        AClock _game_clock;
+
 };
 
 extern "C" Pacman *getLibPacman() {

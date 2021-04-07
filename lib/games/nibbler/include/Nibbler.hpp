@@ -51,6 +51,7 @@ class Nibbler : public IGame {
         std::vector<std::string> GetMap();
         int GetScore();
         game_e GetGameName();
+        AClock &GetDeltaTime();
 
         bool IsGameOver();
 
@@ -77,6 +78,8 @@ class Nibbler : public IGame {
         direction _direction = direction::RIGHT;
         int _score = 0;
         bool _is_game_over = false;
+
+        AClock _game_clock;
 
 };
 

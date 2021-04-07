@@ -49,6 +49,11 @@ bool Pacman::IsGameOver()
     return (_is_game_over);
 }
 
+AClock &Pacman::GetDeltaTime()
+{
+    return (_game_clock);
+}
+
 std::vector<std::string> Pacman::GetMap()
 {
     std::vector<std::string> _temp_map = _game_map;

@@ -46,12 +46,13 @@ class LibSDL2 : public IGraphic {
 
         void DrawMapBackground();
         void DrawMap(std::vector<std::string> map);
+        void DrawHighScores(std::vector<std::pair<std::string, std::string>> list);
 
         evtKey InputGameOverName();
         void UpdateScoreValue(int score);
         void DrawText(const char *text, SDL_Rect rect);
         void DrawScore(int score);
-        void Display();
+        void Display(AClock &delta);
         void DisplayMenu();
         void DisplayGameOver();
         void Destroy();
@@ -72,9 +73,6 @@ class LibSDL2 : public IGraphic {
         std::vector<std::pair<std::string, SDL_Rect>> _menu_text_list;
         std::vector<std::pair<std::string, SDL_Rect>> _game_over_text_list;
         std::string _game_over_name_input;
-
-        clock_t _start_clock;
-
 };
 
 extern "C" LibSDL2 *getLibSDL2() {

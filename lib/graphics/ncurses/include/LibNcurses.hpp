@@ -50,13 +50,14 @@ class LibNcurses : public IGraphic {
         void InitColors();
         void InitMenu();
         void InitGameOver();
-        void InitClock();
 
         void DrawBox();
         void DrawId(char const id,  int y, int x);
         void DrawMap(std::vector<std::string> map);
         void DrawScore(int score);
-        void Display();
+        void DrawHighScores(std::vector<std::pair<std::string, std::string>> list);
+
+        void Display(AClock &delta);
         void DisplayMenu();
         void DisplayGameOver();
         void Destroy();
@@ -69,7 +70,6 @@ class LibNcurses : public IGraphic {
 
     protected:
     private:
-        clock_t _start_clock;
         WINDOW *_game_window;
         scene_e _current_scene = MENU;
 

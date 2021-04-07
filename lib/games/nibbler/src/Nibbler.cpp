@@ -61,6 +61,11 @@ bool Nibbler::IsGameOver()
     return (_is_game_over);
 }
 
+AClock &Nibbler::GetDeltaTime()
+{
+    return (_game_clock);
+}
+
 void Nibbler::RandomizeApplePos()
 {
     _apple.x = rand() % GRID_SIZE_X;

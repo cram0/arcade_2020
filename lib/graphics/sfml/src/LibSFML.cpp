@@ -20,8 +20,7 @@ LibSFML::~LibSFML()
 void LibSFML::Initialize()
 {
     _window.create((sf::VideoMode){WINDOW_WIDTH, WINDOW_HEIGHT, 32}, "SFML", sf::Style::Close);
-    _window.setFramerateLimit(60);
-    _clock.restart();
+    _window.setFramerateLimit(0);
     InitFont();
     InitScoreText();
     InitMenuPrompt();
@@ -172,6 +171,11 @@ void LibSFML::DrawScore(int score)
     _window.draw(_score_label);
 }
 
+void LibSFML::DrawHighScores(std::vector<std::pair<std::string, std::string>> list)
+{
+
+}
+
 evtKey LibSFML::InputGameOverName()
 {
     while (_window.pollEvent(_event)) {
@@ -219,12 +223,12 @@ void LibSFML::DisplayMenu()
     _window.display();
 }
 
-void LibSFML::Display()
+void LibSFML::Display(AClock &delta)
 {
-    while (_clock.getElapsedTime().asMilliseconds() <= 70.0) {
+    while (delta.GetElapsedTime() <= 0.1) {
         _window.display();
     }
-    _clock.restart();
+    delta.Restart();
 }
 
 evtKey LibSFML::GetEventKey()
