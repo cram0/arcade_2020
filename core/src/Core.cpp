@@ -7,9 +7,6 @@
 
 #include "Core.hpp"
 
-// Je lègue ce projet à Eloise si je meurs entre temps d'un grain de poivre
-// mal ingéré
-
 Core::Core()
 {
 
@@ -23,6 +20,18 @@ Core::~Core()
 void Core::PrintUsage()
 {
     std::cout << "Usage: ./arcade [lib_name.so]" << std::endl;
+    std::cout << "\nCommands:"<< std::endl;
+    std::cout << "\tUse the directional arrows for up/down/left/right" << std::endl;
+    std::cout << "\t[r] Reset the game" << std::endl;
+    std::cout << "\t[o] Load the first game" << std::endl;
+    std::cout << "\t[p] Load the second game" << std::endl;
+    std::cout << "\t[b] Load the previous graphical library" << std::endl;
+    std::cout << "\t[n] Load the next graphical library" << std::endl;
+    std::cout << "\t[del] Go back to the main menu" << std::endl;
+    std::cout << "\t[Enter] Confirm your name in the game over screen"<< std::endl;
+    std::cout << "\t[Escape] Quit the program" << std::endl;
+    std::cout << "\nDisclaimer:" << std::endl;
+    std::cout << "\tYou might want to resize your terminal to a bigger size before you load the NCurses library for the corners to be shown properly." << std::endl;
 }
 
 void Core::CheckIfLibIsGraphical(std::string libName)
