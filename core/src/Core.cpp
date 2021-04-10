@@ -31,7 +31,7 @@ void Core::PrintUsage()
     std::cout << "\t[Enter] Confirm your name in the game over screen"<< std::endl;
     std::cout << "\t[Escape] Quit the program" << std::endl;
     std::cout << "\nDisclaimer:" << std::endl;
-    std::cout << "\tYou might want to resize your terminal to a bigger size before you load the NCurses library for the corners to be shown properly." << std::endl;
+    std::cout << "\tYou might want to resize your terminal to a bigger size before you load the NCurses library for the borders to be shown properly." << std::endl;
 }
 
 void Core::CheckIfLibIsGraphical(std::string libName)
@@ -119,7 +119,7 @@ void Core::CheckIfScoreFilesExist()
     }
 }
 
-bool Core::isOrdered(std::vector<std::pair<std::string, std::string>> list)
+bool Core::isOrdered(std::vector<std::pair<std::string, std::string>> list) const
 {
     for (size_t i = 0; i < list.size() - 1; i++) {
         if (!(std::atoi(list[i].first.c_str()) >= std::atoi(list[i + 1].first.c_str()))) {
@@ -311,27 +311,27 @@ void Core::ReadCoreEvent(evtKey evt)
     }
 }
 
-game_e Core::GetCurrentGame()
+game_e Core::GetCurrentGame() const
 {
     return (_current_game);
 }
 
-bool Core::IsRunning()
+bool Core::IsRunning() const
 {
     return (_running);
 }
 
-IGame *Core::GetGame()
+IGame *Core::GetGame() const
 {
     return (_game);
 }
 
-IGraphic *Core::GetGraphic()
+IGraphic *Core::GetGraphic() const
 {
     return (_graphlib);
 }
 
-DLLoader Core::GetDLLoader()
+DLLoader Core::GetDLLoader() const
 {
     return (_dlloader);
 }

@@ -25,7 +25,7 @@ class Core {
 
         void CheckArgs(int argc, char *argv[]);
         void Run();
-        bool IsRunning();
+        bool IsRunning() const;
         void ReadCoreEvent(evtKey evt);
 
         void CheckIfLibIsGraphical(std::string libName);
@@ -33,12 +33,12 @@ class Core {
         void CheckIfGameOver(bool state);
         void PrintUsage();
 
-        IGame *GetGame();
-        IGraphic *GetGraphic();
-        DLLoader GetDLLoader();
-        game_e GetCurrentGame();
+        IGame *GetGame() const;
+        IGraphic *GetGraphic() const;
+        DLLoader GetDLLoader() const;
+        game_e GetCurrentGame() const;
 
-        bool isOrdered(std::vector<std::pair<std::string, std::string>> list);
+        bool isOrdered(std::vector<std::pair<std::string, std::string>> list) const;
         void SetHighScore(std::string path, std::vector<std::pair<std::string, std::string>> list);
         void RefreshHighScores(game_e curr_game);
         std::vector<std::pair<std::string, std::string>> GetHighScoresByGameName(std::string path);
