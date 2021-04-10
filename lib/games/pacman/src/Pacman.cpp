@@ -60,6 +60,8 @@ std::vector<std::string> Pacman::GetMap()
 {
     std::vector<std::string> _temp_map = _game_map;
     for (auto &g : _ghost_vector) {
+        // DEBUG : SHOWS GHOSTS PATHS
+        // UNCOMMENT THE NEXT 4 LINES FOR IT TO SHOW :
         // for (auto mvt : g.GetMvtStack()) {
         //     _temp_map[mvt.second][mvt.first] = '2';
         // }
