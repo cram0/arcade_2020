@@ -56,7 +56,7 @@ void Nibbler::InitApple()
     _apple.y = pos_y;
 }
 
-bool Nibbler::IsGameOver()
+bool Nibbler::IsGameOver() const
 {
     return (_is_game_over);
 }
@@ -193,17 +193,17 @@ void Nibbler::Update(evtKey key)
     UpdateMap();
 }
 
-std::vector<std::string> Nibbler::GetMap()
+std::vector<std::string> Nibbler::GetMap() const
 {
     return (_game_map);
 }
 
-int Nibbler::GetScore()
+int Nibbler::GetScore() const
 {
     return (_score);
 }
 
-game_e Nibbler::GetGameName()
+game_e Nibbler::GetGameName() const
 {
     return (game_e::NIBBLER);
 }

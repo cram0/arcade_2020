@@ -391,7 +391,7 @@ evtKey LibSDL2::GetEventKey()
     return (evtKey::NONE);
 }
 
-std::string LibSDL2::GetUsername()
+std::string LibSDL2::GetUsername() const
 {
     return (_game_over_text_list[1].first);
 }

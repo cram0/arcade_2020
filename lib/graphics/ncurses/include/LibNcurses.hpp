@@ -66,7 +66,7 @@ class LibNcurses : public IGraphic {
         evtKey InputGameOverName();
 
         evtKey GetEventKey();
-        std::string GetUsername();
+        std::string GetUsername() const;
 
     protected:
     private:

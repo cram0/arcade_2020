@@ -45,12 +45,12 @@ class Pacman : public IGame {
 
         void InitMap();
         void InitGhosts();
-        bool IsGameOver();
+        bool IsGameOver() const;
         void CheckIfWin();
 
-        std::vector<std::string> GetMap();
-        int GetScore();
-        game_e GetGameName();
+        std::vector<std::string> GetMap() const;
+        int GetScore() const;
+        game_e GetGameName() const;
         AClock &GetDeltaTime();
 
         void SetGhostsToScared();

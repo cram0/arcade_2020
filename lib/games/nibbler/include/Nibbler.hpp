@@ -48,12 +48,12 @@ class Nibbler : public IGame {
         void InitNibbler();
         void InitApple();
 
-        std::vector<std::string> GetMap();
-        int GetScore();
-        game_e GetGameName();
+        std::vector<std::string> GetMap() const;
+        int GetScore() const;
+        game_e GetGameName() const;
         AClock &GetDeltaTime();
 
-        bool IsGameOver();
+        bool IsGameOver() const;
 
         void Update(evtKey key);
 

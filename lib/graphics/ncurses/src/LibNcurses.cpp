@@ -313,7 +313,7 @@ evtKey LibNcurses::GetEventKey()
     return (evtKey::NONE);
 }
 
-std::string LibNcurses::GetUsername()
+std::string LibNcurses::GetUsername() const
 {
     return (_player_name);
 }

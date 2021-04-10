@@ -288,7 +288,7 @@ evtKey LibSFML::GetEventKey()
     return (evtKey::NONE);
 }
 
-std::string LibSFML::GetUsername()
+std::string LibSFML::GetUsername() const
 {
     return (_player_name_input.toAnsiString());
 }

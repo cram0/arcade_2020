@@ -25,11 +25,11 @@ class IGame {
     public:
         virtual ~IGame() = default;
 
-        virtual std::vector<std::string> GetMap() = 0;
-        virtual int GetScore() = 0;
-        virtual bool IsGameOver() = 0;
+        virtual std::vector<std::string> GetMap() const = 0;
+        virtual int GetScore() const = 0;
+        virtual bool IsGameOver() const = 0;
         virtual void Update(evtKey key) = 0;
-        virtual game_e GetGameName() = 0;
+        virtual game_e GetGameName() const = 0;
         virtual AClock &GetDeltaTime() = 0;
 
     protected:

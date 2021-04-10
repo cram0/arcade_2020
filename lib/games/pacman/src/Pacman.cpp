@@ -28,7 +28,7 @@ void Pacman::InitGhosts()
     _ghost_vector.emplace_back(Ghost(Ghost::ghost_name::BLINKY, 16, 15));
 }
 
-game_e Pacman::GetGameName()
+game_e Pacman::GetGameName() const
 {
     return (game_e::PACMAN);
 }
@@ -46,7 +46,7 @@ void Pacman::InitMap()
     }
 }
 
-bool Pacman::IsGameOver()
+bool Pacman::IsGameOver() const
 {
     return (_is_game_over);
 }
@@ -56,10 +56,10 @@ AClock &Pacman::GetDeltaTime()
     return (_game_clock);
 }
 
-std::vector<std::string> Pacman::GetMap()
+std::vector<std::string> Pacman::GetMap() const
 {
     std::vector<std::string> _temp_map = _game_map;
-    for (auto &g : _ghost_vector) {
+    for (auto g : _ghost_vector) {
         // DEBUG : SHOWS GHOSTS PATHS
         // UNCOMMENT THE NEXT 4 LINES FOR IT TO SHOW :
         // for (auto mvt : g.GetMvtStack()) {
@@ -304,7 +304,7 @@ void Pacman::Update(evtKey key)
     CheckIfWin();
 }
 
-int Pacman::GetScore()
+int Pacman::GetScore() const
 {
     return (_score);
 }
