@@ -21,7 +21,7 @@ void Core::PrintUsage()
 {
     std::cout << "Usage: ./arcade [lib_name.so]" << std::endl;
     std::cout << "\nCommands:"<< std::endl;
-    std::cout << "\tUse the [directional arrows] for the up/down/left/right directions" << std::endl;
+    std::cout << "\t[directional arrows] for the up/down/left/right directions" << std::endl;
     std::cout << "\t[r] Reset the game" << std::endl;
     std::cout << "\t[o] Load the first game" << std::endl;
     std::cout << "\t[p] Load the second game" << std::endl;
