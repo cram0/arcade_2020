@@ -28,11 +28,12 @@ Install the prerequisites :
 
 	> sudo dnf install SDL2 SDL2-devel SDL2_ttf SDL2_ttf-devel SFML SFML-devel ncurses ncurses-devel
 Then :
-  
+
+	> git clone git@github.com:cram0/arcade_2020.git && cd arcade_2020
 	> mkdir lib/games/score && touch lib/games/score/nibbler_score lib/games/score/pacman_score
 	> make
-	> ./arcade [lib_name.so]
-
+	> ./arcade lib/arcade_sdl2.so
+  
 Check the [Libraries location] part to find where the libs are.
 
 ## Disclaimer
