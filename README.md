@@ -19,7 +19,7 @@
 	[Escape] Quit the program
 
 ## Libraries location
-Libraries are located in the /lib folder
+Libraries are located in the /lib folder after you compiled the project
 
 ## How to run the project
 
