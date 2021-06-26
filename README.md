@@ -29,6 +29,7 @@ Install the prerequisites :
 	> sudo dnf install SDL2 SDL2-devel SDL2_ttf SDL2_ttf-devel SFML SFML-devel ncurses ncurses-devel
 Then :
   
+	> mkdir lib/games/score && touch lib/games/score/nibbler_score lib/games/score/pacman_score
 	> make
 	> ./arcade [lib_name.so]
 
