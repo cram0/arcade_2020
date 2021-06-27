@@ -1,5 +1,6 @@
 # arcade_2020
 #### Simulation of an arcade machine made in C++ using SDL2, SFML and ncurses libraries. 
+![Badge](https://github.com/cram0/arcade_2020/workflows/Build/badge.svg)
 
 ## Preview
 ![Alt Text](https://s6.gifyu.com/images/Arcade_vid.gif)
